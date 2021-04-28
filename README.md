@@ -1,2 +1,2 @@
 # OSOCR
-We will upload the manual and the trained model, evaluation lmdbs a bit later. Hang on.
+We will upload the manual, the trained model, and the evaluation lmdbs a bit later. Hang on.
