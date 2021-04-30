@@ -6,3 +6,6 @@ https://drive.google.com/drive/folders/1g6XBx2xbD7T5PgGlnXWgFGu00oPRQSzX?usp=sha
 ## Manual
 TBA. ETA 10 days (before 10th May)
 You may mail and nag the author to release that faster. 
+## About
+This is the code repo of a currently under reviewing paper. 
+And feel free to contact the author should you encounter any problems using the code.
