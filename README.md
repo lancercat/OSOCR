@@ -28,7 +28,7 @@ $CODEROOT is where code resides, should be okay anywhere, in theroy.
 3. ...
 
 ### Preparing dataset for training and evauation from raw materials.
-1.Use https://github.com/lancercat/OSOCR-data to unzip the datasets.
+1. Use https://github.com/lancercat/OSOCR-data to unzip the datasets.
 
 2. ...
 
