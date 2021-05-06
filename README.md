@@ -8,11 +8,11 @@ https://drive.google.com/drive/folders/1g6XBx2xbD7T5PgGlnXWgFGu00oPRQSzX?usp=sha
 \[model\]\_\[trainingset\]\[inputformat\]\_\[epoch\]\_\[loss\]
 
 #### Models
-basic: regular model
+basic: Regular model
 
-basict: large model
+basict: Large model
 
-conventional: conventional close-set recognition model (With out the lable to prototype learning framework).
+conventional: Conventional close-set recognition model (With out the lable to prototype learning framework).
 
 #### Trainingsets
 ctwch: Characters from the CTW dataset. These models are used in zero-shot character recognition tasks. 
