@@ -1,6 +1,7 @@
-from neko_2020nocr.dan.dataloaders.dataset_online_synth import nekoOLSDataset,nekoOLSCDataset
+#from neko_2020nocr.dan.dataloaders.dataset_online_synth import nekoOLSDataset,nekoOLSCDataset
 from neko_2020nocr.dan.dataloaders.dataset_scene import *
-from neko_sdk.ocr_modules import mtsaug
+#from neko_sdk.ocr_modules import mtsaug
+mtsaug=None
 from torchvision import transforms
 from neko_2020nocr.dan.configs.datasets.ds_paths import *
 
@@ -453,39 +454,39 @@ def get_chs(maxT=25, dict_dir=None, root="/home/lasercat/ssddata/"):
 
 
 
-def get_chs_rgen(trgenroo='/home/lasercat/ssddata/synth_data/synthmeta3755af.pt',teroot='/home/lasercat/ssddata/ctw_fslchr/',dict_dir=None):
-    return {
-        'dataset_train': nekoOLSDataset,
-        'dataset_train_args': {
-            'root': trgenroo,
-            'img_height': 32,
-            'img_width': 128,
-            'transform': transforms.Compose([transforms.ToTensor()]),
-            'global_state': 'Train',
-        },
-        'dataloader_train': {
-            'batch_size': 48,
-            'shuffle': True,
-            'num_workers': 32,
-        },
-
-        'dataset_test': lmdbDataset,
-        'dataset_test_args': {
-            'roots': [teroot],
-            'img_height': 32,
-            'img_width': 128,
-            'transform': transforms.Compose([transforms.ToTensor()]),
-            'global_state': 'Test',
-        },
-        'dataloader_test': {
-            'batch_size': 36,
-            'shuffle': False,
-            'num_workers': 5,
-        },
-
-        'case_sensitive': False,
-        'dict_dir': dict_dir
-    }
+#def get_chs_rgen(trgenroo='/home/lasercat/ssddata/synth_data/synthmeta3755af.pt',teroot='/home/lasercat/ssddata/ctw_fslchr/',dict_dir=None):
+#    return {
+#        'dataset_train': nekoOLSDataset,
+#        'dataset_train_args': {
+#            'root': trgenroo,
+#            'img_height': 32,
+#            'img_width': 128,
+#            'transform': transforms.Compose([transforms.ToTensor()]),
+#            'global_state': 'Train',
+#        },
+#        'dataloader_train': {
+#            'batch_size': 48,
+#            'shuffle': True,
+#            'num_workers': 32,
+#        },
+#
+#        'dataset_test': lmdbDataset,
+#        'dataset_test_args': {
+#            'roots': [teroot],
+#            'img_height': 32,
+#            'img_width': 128,
+#            'transform': transforms.Compose([transforms.ToTensor()]),
+#            'global_state': 'Test',
+#        },
+#        'dataloader_test': {
+#            'batch_size': 36,
+ #           'shuffle': False,
+ #           'num_workers': 5,
+ #       },
+#
+#        'case_sensitive': False,
+#        'dict_dir': dict_dir
+#    }
 
 def get_chs_wart(maxT=25, dict_dir=None, root="/home/lasercat/ssddata/"):
     return {
