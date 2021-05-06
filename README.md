@@ -7,6 +7,10 @@ https://drive.google.com/drive/folders/1g6XBx2xbD7T5PgGlnXWgFGu00oPRQSzX?usp=sha
 
 TBA. ETA 10 days (before 10th May).
 
+### Dependencies (Ubuntu 20.04)
+pip install torch torchvision lmdb opencv lmdb scikit-learn torch_scatter
+sudo apt install python3-pip nvidia-cuda-toolkit python3-opencv
+
 
 ### Paths
 The default paths:
@@ -24,7 +28,11 @@ $CODEROOT is where code resides, should be okay anywhere, in theroy.
 
 2. Download the evaluation LMDBs and put them in $DATAROOT
 
-3. ...
+3. Setup python path:
+    '''export PYTHONPATH=${DATAROOT}'''
+4. Setup dummy training sets:
+
+5. 
 
 ### Preparing dataset for training and evauation from raw materials.
 1. Use https://github.com/lancercat/OSOCR-data to unzip the datasets.
