@@ -83,9 +83,12 @@ def load_dataset_driect(dataset_cfgs,DataLoader):
 def load_all_dataset(cfgs,DataLoader):
     retdict={};
     for ds in cfgs.dataset_cfgs["datasets"]:
-        test_data_set = cfgs.dataset_cfgs["datasets"][ds]['dataset_test'](**cfgs.dataset_cfgs["datasets"][ds]['dataset_test_args'])
-        test_loader = DataLoader(test_data_set, **cfgs.dataset_cfgs["datasets"][ds]['dataloader_test'])
-        retdict[ds]=test_loader;
+        try:
+            test_data_set = cfgs.dataset_cfgs["datasets"][ds]['dataset_test'](**cfgs.dataset_cfgs["datasets"][ds]['dataset_test_args'])
+            test_loader = DataLoader(test_data_set, **cfgs.dataset_cfgs["datasets"][ds]['dataloader_test'])
+            retdict[ds]=test_loader;
+        except:
+            print ("missing DS",ds,", skipping");
     # pdb.set_trace()
     return retdict
 

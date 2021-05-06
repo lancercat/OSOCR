@@ -37,4 +37,4 @@ class scene_cfg:
 class scene_cfg_te(scene_cfg):
     global_cfgs = get_test_cfg();
     dataset_cfgs = get_test_all_uncased_dsrgb(root=DSROOT);
-    net_cfgs = get_net(PDICT,prefix,"E4_I20000-239703",maxT=T);
+    net_cfgs = get_net(PDICT,prefix,"E4",maxT=T);
