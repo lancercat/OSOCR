@@ -87,6 +87,6 @@ This is the code repo of a currently under reviewing paper.
 
 And feel free to contact the author should you encounter any problems using the code.
 
-If you want models for other experiments in the paper, please email me the specific experiment(s). 
+If you want models for other experiments in the paper, please email me the specific experiment(s), e.g. row x of table y, so I can upload it to the drive. 
 
 
