@@ -34,10 +34,18 @@ CE: With L_{emb}
 
 ## Manual
 
+
+
 ### Dependencies (Ubuntu 20.04)
-pip3 install torch torchvision lmdb opencv lmdb scikit-learn torch_scatter regex editdistance
+PyTorch>1.4 with CUDA support.  
+
+Other dependency can be installed via the following commands.
+
+```
+pip3 install torchvision lmdb opencv lmdb scikit-learn torch_scatter regex editdistance
 
 sudo apt install python3-pip nvidia-cuda-toolkit python3-opencv
+```
 
 ### Paths
 The default paths:
@@ -52,20 +60,20 @@ $CODEROOT is where code resides, should be okay anywhere, in theroy.
 
 
 ### Evaluation with the prepared LMDBs
-1. Download the trained models and put them in $CODEROOT/neko_2020nocr/dan/models
+1. Download the trained models and put them in `$CODEROOT/neko_2020nocr/dan/models`
 
-2. Download the evaluation LMDBs and put them in $DATAROOT
+2. Download the evaluation LMDBs and put them in `$DATAROOT`
 
 3. Setup python path:
-    '''export PYTHONPATH=${CODEROOT}'''
+    ```export PYTHONPATH=${CODEROOT}```
 
 4. Change neko_sdk.py accordingly if you do not use default ${DATAROOT}
 
-5. pick an experiment in neko_2020nocr/dan/methods_pami/, for example basict_mjstcqa_CE_alter
+5. pick an experiment in `neko_2020nocr/dan/methods_pami/`, for example basict_mjstcqa_CE_alter
 
-6. Double check the cfgs_scene.py file in the experiment dir, make sure you have the correct number of epochs corresponding to your checkpoints.
+6. Double check the `cfgs_scene.py` file in the experiment dir, make sure you have the correct number of epochs corresponding to your checkpoints.
 
-7. Evaluate with python3 test.py. 
+7. Evaluate with `python3 test.py`. 
 
 
 
