@@ -39,7 +39,7 @@ CE: With L_{emb}
 ### Dependencies (Ubuntu 20.04)
 PyTorch>1.4 with CUDA support.  
 
-Other dependency can be installed via the following commands.
+Other dependencies can be installed via the following commands.
 
 ```
 pip3 install torchvision lmdb opencv lmdb scikit-learn torch_scatter regex editdistance
@@ -53,9 +53,9 @@ The default paths:
     CODEROOT: /home/yourusername/cat/neko_wcki
     
     DATAROOT: /home/yourusername/ssddata
-$DATAROOT is defined in $CODEROOT/neko_sdk/root.py 
+`$DATAROOT` is defined in `$CODEROOT/neko_sdk/root.py` 
 
-$CODEROOT is where code resides, should be okay anywhere, in theroy. 
+`$CODEROOT` is where code resides, should be okay anywhere, in theroy. 
 
 
 
