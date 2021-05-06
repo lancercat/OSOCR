@@ -34,10 +34,9 @@ CE: With L_{emb}
 
 ## Manual
 
-TBA. ETA 10 days (before 10th May).
-
 ### Dependencies (Ubuntu 20.04)
 pip3 install torch torchvision lmdb opencv lmdb scikit-learn torch_scatter regex editdistance
+
 sudo apt install python3-pip nvidia-cuda-toolkit python3-opencv
 
 ### Paths
@@ -73,7 +72,7 @@ $CODEROOT is where code resides, should be okay anywhere, in theroy.
 ### Preparing dataset for training and evauation from raw materials.
 1. Use https://github.com/lancercat/OSOCR-data to unzip the datasets.
 
-2. ...
+2. ... TBA.
 
 ## About
 This is the code repo of a currently under reviewing paper. 
