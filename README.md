@@ -86,3 +86,7 @@ The default paths:
 This is the code repo of a currently under reviewing paper. 
 
 And feel free to contact the author should you encounter any problems using the code.
+
+If you want models for other experiments in the paper, please email me the specific experiment(s). 
+
+
