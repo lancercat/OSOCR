@@ -67,7 +67,7 @@ The default paths:
 3. Setup python path:
     ```export PYTHONPATH=${CODEROOT}```
 
-4. Change neko_sdk.py accordingly if you do not use default ${DATAROOT}
+4. Change neko_sdk.py accordingly if you do not use default `${DATAROOT}`
 
 5. pick an experiment in `neko_2020nocr/dan/methods_pami/`, for example basict_mjstcqa_CE_alter
     ```
