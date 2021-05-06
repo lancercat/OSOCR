@@ -70,6 +70,9 @@ The default paths:
 4. Change neko_sdk.py accordingly if you do not use default ${DATAROOT}
 
 5. pick an experiment in `neko_2020nocr/dan/methods_pami/`, for example basict_mjstcqa_CE_alter
+    ```
+    cd $CODEROOT/neko_2020nocr/dan/methods_pami/basict_mjstcqa_CE_alter
+    ```
 
 6. Double check the `cfgs_scene.py` file in the experiment dir, make sure you have the correct number of epochs corresponding to your checkpoints.
 
