@@ -1,6 +1,6 @@
 # OSOCR
 
-We found some issues where evaluation requires training dataset(not used in evaluation but still requires to load), and a fix on that will be uploaded in 2 weeks with a large refactor on paths and a new model with better open-set performance and much better capability for out-of-eval-set rejection. Stay tunned.
+We found some issues where evaluation requires training dataset(not used in evaluation but still requires to load), and a fix on that will be uploaded before 20th, Jan, 2022(delayed due to working on another DDL). Stay tunned.
 
 
 ## Trained models
