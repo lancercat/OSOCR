@@ -9,12 +9,16 @@ class neko_abstract_DAN:
 
     def get_ar_cntr(this,key,case_sensitive):
         return None;
+    def get_rej_ar_cntr(this,key,case_sensitive):
+        return None
     def get_loss_cntr(this,show_interval):
         return Loss_counter(show_interval);
     def set_cntrs(this):
         this.train_acc_counter = this.get_ar_cntr('train accuracy: ',
                                                  this.cfgs.dataset_cfgs['te_case_sensitive'])
         this.test_acc_counter = this.get_ar_cntr('\ntest accuracy: ',
+                                                this.cfgs.dataset_cfgs['te_case_sensitive'])
+        this.test_rej_counter = this.get_rej_ar_cntr('\ntest rej accuracy: ',
                                                 this.cfgs.dataset_cfgs['te_case_sensitive'])
         this.loss_counter = this.get_loss_cntr(this.cfgs.global_cfgs['show_interval'])
 
@@ -26,12 +30,14 @@ class neko_abstract_DAN:
     def set_up_etc(this):
         pass;
     def setup_dataloaders(this):
-        if "dataset_train" in this.cfgs.dataset_cfgs:
-            this.train_loader, this.test_loader = load_dataset(this.cfgs, DataLoader)
-            this.set_cntrs();
-        else:
-            this.all_test_loaders = load_all_dataset(this.cfgs, DataLoader);
-
+        try:
+            if "dataset_train" in this.cfgs.dataset_cfgs:
+                this.train_loader, this.test_loader = load_dataset(this.cfgs, DataLoader)
+                this.set_cntrs();
+            else:
+                this.all_test_loaders = load_all_dataset(this.cfgs, DataLoader);
+        except:
+            print("no scheduled datasets")
     def setup(this):
         this.model = this.load_network();
         this.setuploss();
@@ -69,7 +75,7 @@ class neko_abstract_DAN:
             return this.fpbp(data,label,sample_batched["cased"]);
         return this.fpbp(data,label);
 
-    def runtest(this,miter=1000,debug=False,dbgpath=None):
+    def runtest(this,miter=1000,debug=False,dbgpath=None,measure_rej=False):
         pass
     def rundump(this,miter=1000,debug=False,dbgpath=None):
         pass
@@ -114,13 +120,12 @@ class neko_abstract_DAN:
                            this.cfgs.saving_cfgs['saving_path'] + 'E{}_I{}-{}_M{}.pth'.format(
                                nEpoch, batch_idx, total_iters, i))
 
-    def run(this,dbgpath=None):
+    def run(this,dbgpath=None,measure_rej=False):
         # ---------------------------------
         if this.cfgs.global_cfgs['state'] == 'Test':
             with torch.no_grad():
-                this.runtest(this.cfgs.global_cfgs['test_miter'],False,dbgpath)
-            exit()
-
+                this.runtest(this.cfgs.global_cfgs['test_miter'],False,dbgpath,measure_rej=measure_rej)
+            return
         # --------------------------------
         total_iters = len(this.train_loader)
         for model in this.model:

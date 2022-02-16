@@ -1,0 +1,28 @@
+Name = FeatureExtractor_dataset_loss_alter
+
+[Feature Extractor]
+basf=base_feature_extractor
+
+basic=basic_tpt_network(basic)
+basict=basic_tpt_network(basic thicc)
+
+[Datasets]
+
+hwdb=The HWDB benchmark
+
+
+mjstcqa=close-set benchmark with augmented training data.
+mjst=close-set benchmark.
+
+chsHS=open-set tasks.
+chsHSCQA=open-set tasks with augmented training data.
+
+
+[Loss]
+
+C Crossentropy only
+
+CE Crossentropy + Lemb
+
+-------------------------------------
+What is a non-basic tpt? well this is in another story.

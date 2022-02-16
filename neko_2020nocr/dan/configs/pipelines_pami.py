@@ -1,4 +1,4 @@
-from neko_2020nocr.dan.configs.global_cfg import MODEL_ROOT
+from neko_sdk.root import find_model_root
 def get_bl_fe_args(nchannel=512,ich=1):
     return  {
             'strides': [(1,1), (2,2), (1,1), (2,2), (1,1), (1,1)],
@@ -49,8 +49,7 @@ def get_pe_args(ptfile,val_frac_override=0.8):
     }
 
 def armtoken_bl(d,token,prefix,root_override=None):
-    if(root_override is None):
-        root_override=MODEL_ROOT;
+    root_override=find_model_root(root_override);
     if (token is None):
         #
         d['init_state_dict_fe'] = None;
@@ -63,8 +62,7 @@ def armtoken_bl(d,token,prefix,root_override=None):
     return d
 
 def armtoken_xos(d,token,prefix,root_override=None):
-    if(root_override is None):
-        root_override=MODEL_ROOT;
+    root_override=find_model_root(root_override);
     if (token is None):
         #
         d['init_state_dict_fe'] = None;

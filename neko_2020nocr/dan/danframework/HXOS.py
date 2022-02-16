@@ -44,6 +44,10 @@ class HXOS(neko_abstract_DAN):
         return load_network(this.cfgs);
     def get_ar_cntr(this,key,case_sensitive):
         return neko_os_Attention_AR_counter(key,case_sensitive);
+    def get_rej_ar_cntr(this,key,case_sensitive):
+        return neko_oswr_Attention_AR_counter(key,case_sensitive);
+
+
     def get_loss_cntr(this,show_interval):
         return Loss_counter(show_interval);
 
@@ -90,10 +94,13 @@ class HXOS(neko_abstract_DAN):
                 pass;
         tools[0].show();
         Train_or_Eval(model, 'Train')
-    def runtest(this,miter=1000,debug=False,dpgpath=None):
-        this.test((this.test_loader), this.model, [this.test_acc_counter,
-                                                   flatten_label,
-                                                   ],miter=miter,debug=debug,dbgpath=dpgpath);
+    def runtest(this,miter=1000,debug=False,dpgpath=None,measure_rej=False):
+        tools=[this.test_acc_counter,
+         flatten_label,
+         ]
+        if(measure_rej):
+            tools.append(this.test_rej_counter);
+        this.test((this.test_loader), this.model,tools ,miter=miter,debug=debug,dbgpath=dpgpath);
         this.test_acc_counter.clear();
 
     def mk_proto(this,label):
@@ -101,7 +108,28 @@ class HXOS(neko_abstract_DAN):
 
 
     def fpbp(this, data, label,cased=None):
-        pass
+        proto,semb, plabel, tdict = this.mk_proto(label);
+        target = this.model[3].encode(proto, plabel, tdict, label);
+
+        Train_or_Eval(this.model, 'Train')
+        data = data.cuda()
+        label_flatten, length = flatten_label(target)
+        target, label_flatten = target.cuda(), label_flatten.cuda()
+        # net forward
+        features = this.model[0](data)
+        A = this.model[1](features)
+        # feature,protos,labels, A, hype, text_length, test = False)
+        output, _ = this.model[2](features[-1], proto,semb, plabel, A, target, length)
+        choutput, prdt_prob, = this.model[3].decode(output, length, proto, plabel, tdict);
+        # computing accuracy and loss
+        tarswunk = ["".join([tdict[i.item()] for i in target[j]]).replace('[s]', "") for j in
+                    range(len(target))];
+        this.train_acc_counter.add_iter(choutput, length, tarswunk)
+        loss = this.criterion_CE(output, label_flatten);
+        this.loss_counter.add_iter(loss)
+        # update network
+        Zero_Grad(this.model)
+        loss.backward()
 
 class HSOS(HXOS):
     def mk_proto(this,label):
@@ -117,7 +145,30 @@ class HXOSC(HXOS):
         this.cosloss=neko_cos_loss().cuda();
 
     def fpbp(this, data, label,cased=None):
-        pass
+        proto, semb, plabel, tdict = this.mk_proto(label);
+        target = this.model[3].encode(proto, plabel, tdict, label);
+
+        Train_or_Eval(this.model, 'Train')
+        data = data.cuda()
+        label_flatten, length = flatten_label(target)
+        target, label_flatten = target.cuda(), label_flatten.cuda()
+        # net forward
+        features = this.model[0](data)
+        A = this.model[1](features)
+        # feature,protos,labels, A, hype, text_length, test = False)
+        outcls, outcos = this.model[2](features[-1], proto, semb, plabel, A, target, length)
+        choutput, prdt_prob, = this.model[3].decode(outcls, length, proto, plabel, tdict);
+        # computing accuracy and loss
+        tarswunk = ["".join([tdict[i.item()] for i in target[j]]).replace('[s]', "") for j in
+                    range(len(target))];
+        this.train_acc_counter.add_iter(choutput, length, tarswunk)
+        clsloss = this.criterion_CE(outcls, label_flatten);
+        cos_loss= this.cosloss(outcos,label_flatten);
+        loss=cos_loss+clsloss;
+        this.loss_counter.add_iter(loss)
+        # update network
+        Zero_Grad(this.model)
+        loss.backward()
 
 class HDOSC(HXOSC):
     def mk_proto(this,label):
@@ -135,7 +186,38 @@ class HXOSCR(HXOSC):
         this.wsim = 1;
         this.wmar = 0;
     def fpbp(this, data, label,cased=None):
-        pass
+        proto, semb, plabel, tdict = this.mk_proto(label);
+        target = this.model[3].encode(proto, plabel, tdict, label);
+
+        Train_or_Eval(this.model, 'Train')
+        data = data.cuda()
+        label_flatten, length = flatten_label(target)
+        target, label_flatten = target.cuda(), label_flatten.cuda()
+        # net forward
+        features = this.model[0](data)
+        A = this.model[1](features)
+        # feature,protos,labels, A, hype, text_length, test = False)
+        outcls, outcos = this.model[2](features[-1], proto,semb , plabel, A, target, length)
+        choutput, prdt_prob, = this.model[3].decode(outcls, length, proto, plabel, tdict);
+
+        # computing accuracy and loss
+        tarswunk = ["".join([tdict[i.item()] for i in target[j]]).replace('[s]', "") for j in
+                    range(len(target))];
+        this.train_acc_counter.add_iter(choutput, length, tarswunk)
+        clsloss = this.criterion_CE(outcls, label_flatten);
+        cos_loss= this.cosloss(outcos,label_flatten);
+        margin_loss = this.url.forward(outcls, label_flatten, 0.5)
+        loss=cos_loss*this.wsim+clsloss*this.wcls+margin_loss*this.wmar;
+        terms={
+            "total": loss.detach().item(),
+            "margin": margin_loss.detach().item(),
+            "main": clsloss.detach().item(),
+            "sim":cos_loss.detach().item(),
+        }
+        this.loss_counter.add_iter(loss,terms)
+        # update network
+        Zero_Grad(this.model)
+        loss.backward()
 class HDOSCR(HXOSCR):
     def mk_proto(this,label):
         return this.model[3].sample_tr(label)
@@ -152,7 +234,38 @@ class HXOSCRR(HXOSC):
         this.wsim = 1;
         this.wmar = 0.3;
     def fpbp(this, data, label,cased=None):
-        pass
+        proto, semb, plabel, tdict = this.mk_proto(label);
+        target = this.model[3].encode(proto, plabel, tdict, label);
+
+        Train_or_Eval(this.model, 'Train')
+        data = data.cuda()
+        label_flatten, length = flatten_label(target)
+        target, label_flatten = target.cuda(), label_flatten.cuda()
+        # net forward
+        features = this.model[0](data)
+        A = this.model[1](features)
+        # feature,protos,labels, A, hype, text_length, test = False)
+        outcls, outcos = this.model[2](features[-1], proto,semb , plabel, A, target, length)
+        choutput, prdt_prob, = this.model[3].decode(outcls, length, proto, plabel, tdict);
+
+        # computing accuracy and loss
+        tarswunk = ["".join([tdict[i.item()] for i in target[j]]).replace('[s]', "") for j in
+                    range(len(target))];
+        this.train_acc_counter.add_iter(choutput, length, tarswunk)
+        clsloss = this.criterion_CE(outcls, label_flatten);
+        cos_loss= this.cosloss(outcos,label_flatten);
+        margin_loss = this.url.forward(outcls, label_flatten, 0.5)
+        loss=cos_loss*this.wsim+clsloss*this.wcls+margin_loss*this.wmar;
+        terms={
+            "total": loss.detach().item(),
+            "margin": margin_loss.detach().item(),
+            "main": clsloss.detach().item(),
+            "sim":cos_loss.detach().item(),
+        }
+        this.loss_counter.add_iter(loss,terms)
+        # update network
+        Zero_Grad(this.model)
+        loss.backward()
 class HDOSCRR(HXOSCRR):
     def mk_proto(this,label):
         return this.model[3].sample_tr(label)
@@ -165,7 +278,38 @@ class HXOSCO(HXOSC):
         this.wsim = 1;
         this.wmar = 0;
     def fpbp(this, data, label,cased=None):
-       pass
+        proto, semb, plabel, tdict = this.mk_proto(label);
+        target = this.model[3].encode(proto, plabel, tdict, label);
+
+        Train_or_Eval(this.model, 'Train')
+        data = data.cuda()
+        label_flatten, length = flatten_label(target)
+        target, label_flatten = target.cuda(), label_flatten.cuda()
+        # net forward
+        features = this.model[0](data)
+        A = this.model[1](features)
+        # feature,protos,labels, A, hype, text_length, test = False)
+        outcls, outcos = this.model[2](features[-1], proto,semb , plabel, A, target, length)
+        choutput, prdt_prob, = this.model[3].decode(outcls, length, proto, plabel, tdict);
+
+        # computing accuracy and loss
+        tarswunk = ["".join([tdict[i.item()] for i in target[j]]).replace('[s]', "") for j in
+                    range(len(target))];
+        this.train_acc_counter.add_iter(choutput, length, tarswunk)
+        clsloss = this.criterion_CE(outcls, label_flatten);
+        cos_loss= this.cosloss(outcos,label_flatten);
+        margin_loss = this.url.forward(outcls, label_flatten, 0.5)
+        loss=cos_loss*this.wsim+clsloss*this.wcls+margin_loss*this.wmar;
+        terms={
+            "total": loss.detach().item(),
+            "margin": margin_loss.detach().item(),
+            "main": clsloss.detach().item(),
+            "sim":cos_loss.detach().item(),
+        }
+        this.loss_counter.add_iter(loss,terms)
+        # update network
+        Zero_Grad(this.model)
+        loss.backward()
 class HDOSCO(HXOSCRR):
     def mk_proto(this,label):
         return this.model[3].sample_tr(label)
@@ -179,7 +323,38 @@ class HXOSCB(HXOSC):
         this.wsim = 0;
         this.wmar = 0;
     def fpbp(this, data, label,cased=None):
-        pass
+        proto, semb, plabel, tdict = this.mk_proto(label);
+        target = this.model[3].encode(proto, plabel, tdict, label);
+
+        Train_or_Eval(this.model, 'Train')
+        data = data.cuda()
+        label_flatten, length = flatten_label(target)
+        target, label_flatten = target.cuda(), label_flatten.cuda()
+        # net forward
+        features = this.model[0](data)
+        A = this.model[1](features)
+        # feature,protos,labels, A, hype, text_length, test = False)
+        outcls, outcos = this.model[2](features[-1], proto,semb , plabel, A, target, length)
+        choutput, prdt_prob, = this.model[3].decode(outcls, length, proto, plabel, tdict);
+
+        # computing accuracy and loss
+        tarswunk = ["".join([tdict[i.item()] for i in target[j]]).replace('[s]', "") for j in
+                    range(len(target))];
+        this.train_acc_counter.add_iter(choutput, length, tarswunk)
+        clsloss = this.criterion_CE(outcls, label_flatten);
+        cos_loss= this.cosloss(outcos,label_flatten);
+        margin_loss = this.url.forward(outcls, label_flatten, 0.5)
+        loss=cos_loss*this.wsim+clsloss*this.wcls+margin_loss*this.wmar;
+        terms={
+            "total": loss.detach().item(),
+            "margin": margin_loss.detach().item(),
+            "main": clsloss.detach().item(),
+            "sim":cos_loss.detach().item(),
+        }
+        this.loss_counter.add_iter(loss,terms)
+        # update network
+        Zero_Grad(this.model)
+        loss.backward()
 class HDOSB(HXOSCB):
     def mk_proto(this,label):
         return this.model[3].sample_tr(label)

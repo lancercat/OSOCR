@@ -1,6 +1,5 @@
 # MODEL_ROOT='../../trained_models/';
-MODEL_ROOT='/run/media/lasercat/ssddata/pamidump/trained_models/models/scene/ablchs_md_scene/';
-
+from neko_sdk.root import find_model_root
 def get_train_cfg(epochs=10):
     return {
         'state': 'Train',
@@ -19,10 +18,7 @@ def get_test_cfg():
         'test_miter': 100000,
     };
 def get_save_cfgs(prefix,root_override=None):
-    if(root_override is None):
-        models=MODEL_ROOT+prefix+"_";
-    else:
-        models=root_override+prefix+"_";
+    models=find_model_root(root_override)+prefix+"_";
     return {
         'saving_iter_interval': 20000,
         'saving_epoch_interval': 1,

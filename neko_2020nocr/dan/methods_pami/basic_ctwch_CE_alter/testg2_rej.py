@@ -15,7 +15,7 @@ from neko_2020nocr.dan.danframework.HEXOScvpr21 import HDOS2C;
 #---------------------------------------------------------
 if __name__ == '__main__':
     for k in ["dictrej250.pt","dictrej200.pt","dictrej100.pt","dictrej50.pt"]:
-        cfgs = scene_cfg_te("/run/media/lasercat/ssddata/pamidump/mdch/ctw/",k)
+        cfgs = scene_cfg_te("/run/media/lasercat/ssddata/pamidump/ctw/",k)
         runner = HDOS2C(cfgs);
         runner.run(measure_rej=True);
         print(k,"Done")
