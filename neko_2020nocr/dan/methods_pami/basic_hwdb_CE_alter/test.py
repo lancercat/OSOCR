@@ -11,9 +11,10 @@ try:
         from cfgs_scene15 import scene_cfg_te;
     if sys.argv[1]=="20":
         from cfgs_scene20 import scene_cfg_te;
+    id=sys.argv[1]
 except:
-
-    from cfgs_scene20 import scene_cfg_te;
+    id="20"
+    from cfgs_scene5 import scene_cfg_te;
 
 from neko_2020nocr.dan.danframework.HEXOScvpr21 import HDOS2C;
 
@@ -25,7 +26,7 @@ if __name__ == '__main__':
     import os;
     cfgs=scene_cfg_te()
     runner=HDOS2C(cfgs);
-    root=os.path.join("/home/lasercat/ssddata/hwdbcedump/",sys.argv[1])
-    os.makedirs(root,True);
+    root=os.path.join("/run/media/lasercat/ssddata/hwdbcedump/","2000")
+    os.makedirs(root,exist_ok=True);
     runner.run(root);
 

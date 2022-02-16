@@ -1,13 +1,7 @@
 import torch;
-from torch import nn;
-import random;
-from neko_sdk.ocr_modules.neko_interprinter import neko_visual_only_interprinter,neko_visual_only_interprinterHD,neko_visual_only_interprinter_inv,neko_visual_only_interprinterR34;
-from neko_sdk.ocr_modules.prototypers.neko_visual_center_prototyper import neko_abstract_visual_center_prototyper;
-import numpy as np;
-from collections import deque as python_queue;
+from neko_sdk.ocr_modules.neko_interprinter import neko_visual_only_interprinter
 # this class defines how samples are sampled ^_^
 from neko_sdk.ocr_modules.prototypers.neko_prototyper_core import neko_prototype_core_basic
-import torch_scatter;
 
 import regex
 class neko_nonsematical_prototype_core_basic(neko_prototype_core_basic):

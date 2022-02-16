@@ -13,11 +13,14 @@ DSROOT=find_data_root();
 assert(os.path.basename(os.getcwd())==prefix);
 
 class scene_cfg:
-    global_cfgs = get_train_cfg();
-    dataset_cfgs = DSCFG(T,None,DSROOT);
-    net_cfgs = get_net(pdict_trchs(DSROOT),prefix,None,maxT=T);
-    optimizer_cfgs =get_dos_optim()
-    saving_cfgs = get_save_cfgs(prefix)
+    def __init__(this,root_override=None):
+        this.global_cfgs = get_train_cfg();
+        this.net_cfgs = get_net(pdict_trchs(DSROOT),prefix,None,maxT=T,root_override=root_override);
+        this.optimizer_cfgs = get_dos_optim()
+        this.saving_cfgs = get_save_cfgs(prefix,root_override=root_override)
+        this.dataset_cfgs = DSCFG(T,None,DSROOT);
+        this.loss_weight=loss[1];
+
     loss_weight=loss[1];
     def mkdir(this,path_):
         paths = path_.split('/')
@@ -34,7 +37,12 @@ class scene_cfg:
 
 
 class scene_cfg_tejp(scene_cfg):
-    dataset_cfgs = get_jap_test(T,None,DSROOT);
+    def __init__(this, root_override=None):
+        this.global_cfgs =  get_test_cfg();
+        this.net_cfgs = get_net(pdict_evaljap(DSROOT),prefix,"E4",maxT=T, root_override=root_override);
+        this.optimizer_cfgs = get_dos_optim()
+        this.saving_cfgs = get_save_cfgs(prefix, root_override=root_override)
+        this.dataset_cfgs  = get_jap_test(T,None,DSROOT);
+        this.loss_weight = loss[1];
 
-    global_cfgs = get_test_cfg();
-    net_cfgs = get_net(pdict_evaljap(DSROOT),prefix,"E3",maxT=T);
+

@@ -11,7 +11,7 @@ from neko_2020nocr.dan.danframework.HEXOScvpr21 import HDOS2C;
 if __name__ == '__main__':
     root="/run/media/lasercat/ssddata/cqa/";
     root=None;
-    cfgs=scene_cfg_te()
+    cfgs=scene_cfg_te(root_override="/run/media/lasercat/ssddata/pamidump/ablmjst_md_scene/");
     runner=HDOS2C(cfgs);
     runner.test_all(root);
 

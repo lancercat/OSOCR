@@ -1,10 +1,7 @@
 import torch.nn as nn
 import math
-from neko_sdk.encoders.neko_lens import neko_lens,vis_lenses;
-from neko_sdk.encoders.neko_reslayers import neko_reslayer,neko_se_reslayer;
-from torch.nn import functional as trnf;
-
-
+from neko_sdk.AOF.neko_lens import neko_lens;
+from neko_sdk.AOF.neko_reslayers import neko_reslayer;
 
 
 class dan_ResNetv2(nn.Module):

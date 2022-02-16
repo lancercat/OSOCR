@@ -1,7 +1,12 @@
 # coding:utf-8
 from __future__ import print_function
 
-from cfgs_scene import scene_cfg;
+import sys
+
+
+
+from cfgs_scenerej import scene_cfg_te
+
 from neko_2020nocr.dan.danframework.HEXOScvpr21 import HDOS2C;
 
 
@@ -9,7 +14,8 @@ from neko_2020nocr.dan.danframework.HEXOScvpr21 import HDOS2C;
 #--------------------------Begin--------------------------
 #---------------------------------------------------------
 if __name__ == '__main__':
-    cfgs=scene_cfg()
-    runner=HDOS2C(cfgs);
-    runner.run();
-
+    for k in ["dictrej500.pt","dictrej400.pt","dictrej200.pt","dictrej100.pt"]:
+        cfgs = scene_cfg_te("/run/media/lasercat/ssddata/pamidump/mdch/hwdb2/",k)
+        runner = HDOS2C(cfgs);
+        runner.run(measure_rej=True);
+        print(k,"Done")

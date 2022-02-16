@@ -1,21 +1,12 @@
-from torch.utils.data import DataLoader
 #------------------------
 from neko_2020nocr.dan.utils import *
-from neko_2020nocr.dan.common.common import display_cfgs,load_dataset,Zero_Grad,Train_or_Eval,generate_optimizer,\
-    Updata_Parameters,flatten_label,flatten_label_oc
-from neko_2020nocr.dan.common.common_xos import load_network;
-from neko_2020nocr.dan.danframework.neko_abstract_dan import neko_abstract_DAN;
-from neko_sdk.ocr_modules.trainable_losses.neko_url import neko_unknown_ranking_loss;
+from neko_2020nocr.dan.common.common import Train_or_Eval
 from neko_2020nocr.dan.visdan import visdan;
-from neko_sdk.ocr_modules.neko_confusion_matrix import neko_confusion_matrix
-from neko_2020nocr.dan.danframework.HXOS import HXOSC,neko_cos_loss,neko_cos_loss3,neko_cos_loss2;
-import os;
+from neko_2020nocr.dan.danframework.HXOS import HXOSC, neko_cos_loss2;
 from neko_sdk.ocr_modules.prototypers.neko_prototyper_core import neko_prototype_core_basic_shared;
-from neko_sdk.ocr_modules.neko_score_merging import scatter_cvt,scatter_cvt_d;
 
 from neko_sdk.ocr_modules.trainable_losses.neko_url import neko_unknown_ranking_loss;
-from torch_scatter import scatter_mean;
-from neko_sdk.encoders.neko_lens import vis_lenses;
+from neko_sdk.AOF.neko_lens import vis_lenses;
 
 # HSOS, HDOS, HDOSCS
 # the main feature is that the DPE returns embeddings for characters.

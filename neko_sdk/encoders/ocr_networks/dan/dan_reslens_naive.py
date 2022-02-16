@@ -1,10 +1,7 @@
 import torch.nn as nn
 import math
-from neko_sdk.encoders.neko_lens import neko_lens,neko_lensnn,vis_lenses;
-from neko_sdk.encoders.neko_reslayers import neko_reslayer,neko_se_reslayer;
-from torch.nn import functional as trnf;
-
-
+from neko_sdk.AOF.neko_lens import neko_lens,neko_lensnn,vis_lenses;
+from neko_sdk.AOF.neko_reslayers import neko_reslayer,neko_se_reslayer;
 
 
 class dan_ResNet(nn.Module):
@@ -97,8 +94,8 @@ class dan_ResNetnn(dan_ResNet):
 
 class dan_ResNetSE(dan_ResNet):
     LAYER = neko_se_reslayer;
-def res_naive_lens45(strides, compress_layer,hardness,inpch=1,oupch=512):
-    model = dan_ResNet( [3, 4, 6, 6, 3], strides,None,hardness, compress_layer,inpch=inpch,oupch=oupch)
+def res_naive_lens45(strides, compress_layer,hardness,inpch=1,oupch=512,expf=1):
+    model = dan_ResNet( [3, 4, 6, 6, 3], strides,None,hardness, compress_layer,inpch=inpch,oupch=oupch,expf=expf)
     return model
 def res_naive_lens45_thicc(strides, compress_layer,hardness,inpch=1,oupch=512):
     model = dan_ResNet( [3, 4, 6, 6, 3], strides,None,hardness, compress_layer,inpch=inpch,oupch=oupch,expf=1.5)
@@ -113,6 +110,7 @@ def res_naive_lens45_thicc_nn(strides, compress_layer,hardness,inpch=1,oupch=512
 def res_naive_lens45SE(strides, compress_layer,hardness,inpch=1,oupch=512):
     model = dan_ResNetSE( [3, 4, 6, 6, 3], strides,None,hardness, compress_layer,inpch=inpch,oupch=oupch)
     return model
+
 
 
 if __name__ == '__main__':

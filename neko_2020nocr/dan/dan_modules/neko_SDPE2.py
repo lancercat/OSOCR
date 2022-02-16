@@ -3,22 +3,26 @@ from torch.nn import functional as trnf
 from neko_sdk.ocr_modules.prototypers.neko_nonsemantical_prototyper_core import neko_nonsematical_prototype_core_basic
 import regex
 class neko_SDPE2(torch.nn.Module):
-    def setupcore(this):
-        meta = torch.load(this.meta_path);
-        this.dwcore = neko_nonsematical_prototype_core_basic(this.nchannel, meta, None, None,
+    def setupcore(this,backbone=None,val_frac=0.8):
+        try:
+            meta = torch.load(this.meta_path);
+        except:
+            meta=None;
+            print("meta loading failed")
+        this.dwcore = neko_nonsematical_prototype_core_basic(this.nchannel, meta, backbone, None,
                                                 {"master_share": not this.case_sensitive,
                                                  "max_batch_size": 512,
-                                                 "val_frac": 0.8,
+                                                 "val_frac": val_frac,
                                                  "neg_servant" :True
                                                  },dropout=0.3);
 
-    def __init__(this, meta_path, nchannel, case_sensitive):
+    def __init__(this, meta_path, nchannel, case_sensitive,backbone=None,val_frac=0.8):
         super(neko_SDPE2, this).__init__();
         this.EOS = 0;
         this.nchannel = nchannel;
         this.case_sensitive = case_sensitive;
         this.meta_path=meta_path;
-        this.setupcore();
+        this.setupcore(backbone,val_frac);
 
 
     def dump_all(this):

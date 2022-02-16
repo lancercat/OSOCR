@@ -1,5 +1,4 @@
 # coding:utf-8
-from neko_2020nocr.dan.dataloaders.dataset_scene import *
 from neko_2020nocr.dan.configs.global_cfg import get_test_cfg,get_save_cfgs,get_train_cfg;
 from neko_2020nocr.dan.configs.optimizers import get_dos_optim
 
@@ -7,18 +6,20 @@ from neko_sdk.root import find_data_root;
 from neko_2020nocr.dan.configs.nets.pamithicc import get_dos_basic_ccorgb_thicc as get_net;
 from neko_2020nocr.dan.methods_pami.CHSHSCQA_cfg import *
 from neko_2020nocr.dan.methods_pami.loss_cfg import cls_emb as loss;
+from neko_2020nocr.dan.methods_pami.pami_openset_word_dataset import get_mltjp_path,get_mltkr_path,get_test_jap_rgb,get_test_kr_rgb
 prefix="basict"+"_"+DSPRFIX+"_"+loss[0]+"_alter";
 print(prefix);
 DSROOT=find_data_root();
 assert(os.path.basename(os.getcwd())==prefix);
 
 class scene_cfg:
-    global_cfgs = get_train_cfg();
-    dataset_cfgs = DSCFG(T,None,DSROOT);
-    net_cfgs = get_net(pdict_trchs(DSROOT),prefix,None,maxT=T);
-    optimizer_cfgs =get_dos_optim()
-    saving_cfgs = get_save_cfgs(prefix)
-    loss_weight=loss[1];
+    def __init__(this,root_override=None):
+        this.global_cfgs = get_train_cfg();
+        this.dataset_cfgs = DSCFG(T,None,DSROOT);
+        this.net_cfgs = get_net(pdict_trchs(DSROOT),prefix,None,maxT=T,root_override=root_override);
+        this.optimizer_cfgs =get_dos_optim()
+        this.saving_cfgs = get_save_cfgs(prefix)
+        this.loss_weight=loss[1];
     def mkdir(this,path_):
         paths = path_.split('/')
         command_str = 'mkdir '
@@ -34,7 +35,19 @@ class scene_cfg:
 
 
 class scene_cfg_tejp(scene_cfg):
-    global_cfgs = get_test_cfg();
-    net_cfgs = get_net(pdict_evaljap(DSROOT),prefix,"E4",maxT=T);
-    dataset_cfgs = get_test_jap_rgb(T,DICT,DSROOT);
+    def __init__(this,meta=None,root_override=None):
+        this.global_cfgs = get_test_cfg();
+        this.optimizer_cfgs = get_dos_optim()
+        this.saving_cfgs = get_save_cfgs(prefix)
+        this.loss_weight = loss[1];
+        this.net_cfgs = get_net(pdict_evaljap(DSROOT),prefix,"E4",maxT=T,root_override=root_override);
+        this.dataset_cfgs = get_test_jap_rgb(T,DICT,DSROOT,meta);
 
+class scene_cfg_tekr(scene_cfg):
+    def __init__(this,meta=None,root_override=None):
+        this.global_cfgs = get_test_cfg();
+        this.optimizer_cfgs = get_dos_optim()
+        this.saving_cfgs = get_save_cfgs(prefix)
+        this.loss_weight = loss[1];
+        this.net_cfgs = get_net(pdict_evalkr(DSROOT),prefix,"E4",maxT=T,root_override=root_override);
+        this.dataset_cfgs =get_test_kr_rgb(T,DICT,DSROOT);

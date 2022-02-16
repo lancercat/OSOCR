@@ -17,13 +17,15 @@ DICT="../../dict/dic_3791.txt";
 CC=3791+2;
 
 class scene_cfg:
-    global_cfgs = get_train_cfg();
-    dataset_cfgs = DSCFG(T, DICT, DSROOT);
-    net_cfgs = get_net(CC, prefix, None, maxT=T);
-    optimizer_cfgs = get_dos_optim()
-    saving_cfgs = get_save_cfgs(prefix)
+    def __init__(this,root_override=None):
+        this.global_cfgs = get_train_cfg();
+        this.dataset_cfgs = DSCFG(T, DICT, DSROOT);
+        this.net_cfgs = get_net(CC, prefix, None, maxT=T,root_override=root_override);
+        this.optimizer_cfgs =get_dos_optim()
+        this.saving_cfgs = get_save_cfgs(prefix)
+        this.loss_weight=loss[1];
 
-    def mkdir(this, path_):
+    def mkdir(this,path_):
         paths = path_.split('/')
         command_str = 'mkdir '
         for i in range(0, len(paths) - 1):
@@ -31,15 +33,18 @@ class scene_cfg:
         command_str = command_str[0:-1]
         os.system(command_str)
 
-    def showcfgs(this, s):
+    def showcfgs(this,s):
         for key in s.keys():
-            print(key, s[key])
+            print(key , s[key])
         print('')
 
 
 class scene_cfg_tejp(scene_cfg):
-    global_cfgs = get_test_cfg();
-    net_cfgs = get_net(CC,prefix,"E3",maxT=T);
-    # net_cfgs = get_net(pdict_evaljap(DSROOT),prefix,"E1_I80000-166912",maxT=T);
-    dataset_cfgs = get_jap_test(T,DICT,DSROOT);
+    def __init__(this,root_override=None):
+        this.global_cfgs = get_test_cfg();
+        this.dataset_cfgs =   get_jap_test(T,DICT,DSROOT);
+        this.net_cfgs = get_net(CC,prefix,"E4",maxT=T, root_override=root_override);
+        this.optimizer_cfgs = get_dos_optim()
+        this.saving_cfgs = get_save_cfgs(prefix)
+        this.loss_weight = loss[1];
 

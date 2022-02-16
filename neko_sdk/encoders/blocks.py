@@ -1,9 +1,5 @@
-import torch.nn as nn
-from neko_sdk.encoders.neko_lens import neko_lens_fuse,vis_lenses;
-import torch
-import torch.nn.functional as F
+from neko_sdk.AOF.neko_lens import neko_lens_fuse;
 from torch import nn
-from torch.distributions import Bernoulli
 
 
 def conv1x1(in_planes,out_planes,stride=1):

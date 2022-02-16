@@ -13,13 +13,13 @@ DSROOT=find_data_root();
 assert(os.path.basename(os.getcwd())==prefix);
 
 class scene_cfg:
-
-    global_cfgs = get_train_cfg();
-    dataset_cfgs = DSCFG(T,DSROOT);
-    net_cfgs = get_net(PDICT,prefix,None,maxT=T);
-    optimizer_cfgs =get_dos_optim()
-    saving_cfgs = get_save_cfgs(prefix)
-    loss_weight=loss[1];
+    def __init__(this,root_override=None):
+        this.global_cfgs = get_train_cfg();
+        this.dataset_cfgs = DSCFG(T,DSROOT);
+        this.net_cfgs = get_net(PDICT,prefix,None,maxT=T,root_override=root_override);
+        this.optimizer_cfgs =get_dos_optim()
+        this.saving_cfgs = get_save_cfgs(prefix)
+        this.loss_weight=loss[1];
     def mkdir(this,path_):
         paths = path_.split('/')
         command_str = 'mkdir '
@@ -35,6 +35,10 @@ class scene_cfg:
 
 
 class scene_cfg_te(scene_cfg):
-    global_cfgs = get_test_cfg();
-    dataset_cfgs = get_test_all_uncased_ds(root=DSROOT);
-    net_cfgs = get_net(PDICT,prefix,"E4",maxT=T);
+    def __init__(this,root_override=None):
+        this.global_cfgs = get_test_cfg();
+        this.dataset_cfgs =  get_test_all_uncased_ds(root=DSROOT);
+        this.net_cfgs = get_net(PDICT,prefix,"E4",maxT=T, root_override=root_override);
+        this.optimizer_cfgs = get_dos_optim()
+        this.saving_cfgs = get_save_cfgs(prefix)
+        this.loss_weight = loss[1];

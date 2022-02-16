@@ -12,18 +12,17 @@ prefix="basic"+"_"+DSPRFIX+"_"+loss[0]+"_"+"alter_"+str(cnt);
 print(prefix);
 DSROOT=find_data_root();
 assert(os.path.basename(os.getcwd())+"_"+str(cnt)==prefix);
-dataset = DSCFG(cnt, T, None, DSROOT);
+dataset = DSCFG(cnt, T, "dict.pt", DSROOT);
 PDICT=dataset["dict_dir"];
 
-
 class scene_cfg:
-    global_cfgs = get_train_cfg();
-    net_cfgs = get_net(PDICT,prefix,None,maxT=T);
-    optimizer_cfgs =get_dos_optim()
-    saving_cfgs = get_save_cfgs(prefix)
-    dataset_cfgs=dataset;
-
-    loss_weight=loss[1];
+    def __init__(this,root_override=None):
+        this.global_cfgs = get_train_cfg();
+        this.net_cfgs = get_net(PDICT, prefix, None, maxT=T);
+        this.optimizer_cfgs = get_dos_optim()
+        this.saving_cfgs = get_save_cfgs(prefix,root_override=root_override)
+        this.dataset_cfgs = dataset;
+        this.loss_weight=loss[1];
     def mkdir(this,path_):
         paths = path_.split('/')
         command_str = 'mkdir '
@@ -38,5 +37,10 @@ class scene_cfg:
         print('')
 
 class scene_cfg_te(scene_cfg):
-    global_cfgs = get_test_cfg();
-    net_cfgs = get_net(PDICT,prefix,"E9",maxT=T);
+    def __init__(this, root_override=None):
+        this.global_cfgs = get_test_cfg();
+        this.net_cfgs = get_net(PDICT,prefix,"E9",maxT=T,root_override=root_override);
+        this.optimizer_cfgs = get_dos_optim()
+        this.saving_cfgs = get_save_cfgs(prefix, root_override=root_override)
+        this.dataset_cfgs = dataset;
+        this.loss_weight = loss[1];
