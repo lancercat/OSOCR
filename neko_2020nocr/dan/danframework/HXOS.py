@@ -99,6 +99,9 @@ class HXOS(neko_abstract_DAN):
          flatten_label,
          ]
         if(measure_rej):
+            tools = [
+                     flatten_label,
+                     ]
             tools.append(this.test_rej_counter);
         this.test((this.test_loader), this.model,tools ,miter=miter,debug=debug,dbgpath=dpgpath);
         this.test_acc_counter.clear();
