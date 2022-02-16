@@ -18,7 +18,7 @@ if __name__ == '__main__':
     cfgs=scene_cfg_tejp("/run/media/lasercat/ssddata/dicts/dabjpmltch_nohirakata.pt",
                         root_override="/run/media/lasercat/ssddata/pamidump/ablchs_md_scene/")
     runner=HDOS2C(cfgs);
-    runner.run("/run/media/lasercat/ssddata/pamiremake/basict_chjaprej/",True);
+    runner.run("/run/media/lasercat/ssddata/pamiremake/basict_chjaprej/",measure_rej=True);
 
 
 

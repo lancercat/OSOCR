@@ -107,11 +107,11 @@ class HXXOS2C(HXOSC):
             if(dbgpath):
                 A = model[1](features)
                 features,grid = model[0](data,True)
-
-                data_=vis_lenses(data,grid)[1];
-                if (visualizer is not None):
-                    # visualizer.addbatch(data_, A, label,choutput)
-                    visualizer.add_image([data, data_], label,choutput, ["before", "after"])
+                if(len(grid)>0):
+                    data_=vis_lenses(data,grid)[1];
+                    if (visualizer is not None):
+                        # visualizer.addbatch(data_, A, label,choutput)
+                        visualizer.add_image([data, data_], label,choutput, ["before", "after"])
                 #
                 # fgrid=F.interpolate(grid[0],data.shape[-2:],mode="bilinear");
                 # data=F.grid_sample(data,fgrid.permute(0,2,3,1));
