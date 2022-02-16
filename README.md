@@ -2,6 +2,9 @@
 
 We found some issues where evaluation requires training dataset(not used in evaluation but still requires to load), and a fix on that will be uploaded before 20th, Jan, 2022(delayed due to working on another DDL). Stay tunned.
 
+[Edit]
+Sorry for the delay... Other stuff push in and this one got another delay. It will be updated constantly in these few days with new experiments. We will remove these notifications after the fix.
+
 
 ## Trained models
 https://drive.google.com/drive/folders/1WqpL1EAg2A5LXV8V7I1wK6XOMSGAR7Z4?usp=sharing
