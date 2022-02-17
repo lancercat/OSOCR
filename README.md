@@ -3,10 +3,12 @@ Maintenances are almost done. We may commit a few minor patches within a few day
 
 ## Trained models
 https://drive.google.com/drive/folders/1WqpL1EAg2A5LXV8V7I1wK6XOMSGAR7Z4?usp=sharing
+
 Most models including ablative study models are now uploaded 
 
 ## Evaluation LMDBs
 https://www.kaggle.com/lancercat/osocr-test
+
 Training dataset and scripts will be uploaded upon acceptance.
 
 ### Naming rules:
