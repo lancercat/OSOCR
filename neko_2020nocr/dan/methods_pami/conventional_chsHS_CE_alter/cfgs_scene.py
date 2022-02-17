@@ -1,4 +1,6 @@
 # coding:utf-8
+import os.path
+
 from neko_2020nocr.dan.dataloaders.dataset_scene import *
 from neko_2020nocr.dan.configs.global_cfg import get_test_cfg,get_save_cfgs,get_train_cfg;
 from neko_2020nocr.dan.configs.optimizers import get_dos_optim
@@ -7,13 +9,14 @@ from neko_sdk.root import find_data_root;
 from neko_2020nocr.dan.configs.nets.pami import get_baseline_lcf_cco as get_net;
 from neko_2020nocr.dan.methods_pami.CHSHS_cfg import *
 from neko_2020nocr.dan.methods_pami.loss_cfg import cls_emb as loss;
+import os;
 prefix="conventional"+"_"+DSPRFIX+"_"+loss[0]+"_alter";
 print(prefix);
 
 DSROOT=find_data_root();
 assert(os.path.basename(os.getcwd())==prefix);
 
-DICT="../../dict/dic_3791.txt";
+DICT=os.path.join(find_data_root(),"dicts/dic_3791.txt");
 CC=3791+2;
 
 class scene_cfg:

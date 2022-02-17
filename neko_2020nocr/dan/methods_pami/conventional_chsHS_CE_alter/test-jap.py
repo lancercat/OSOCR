@@ -8,7 +8,7 @@ from neko_2020nocr.dan.danframework.baseline import baseline;
 #--------------------------Begin--------------------------
 #---------------------------------------------------------
 if __name__ == '__main__':
-    cfgs=scene_cfg_tejp(root_override=)
+    cfgs=scene_cfg_tejp(root_override="/run/media/lasercat/ssddata/pamidump/prfinal/");
     runner=baseline(cfgs);
     runner.run();
 

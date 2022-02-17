@@ -19,7 +19,7 @@ from neko_sdk.ocr_modules.img_eval import keepratio_resize
 
 def img_test(img,runner,args):
     img=cv2.imread(img)
-    imgr=keepratio_resize(img,32,128)/255.
+    imgr=keepratio_resize(img,32,128)[0]/255.
     res=runner.test_im(torch.tensor(imgr).float().unsqueeze(0).unsqueeze(0).cuda(),args);
     return  res[0];
 def dicted_test(img,runner,args,lex):
@@ -71,15 +71,15 @@ def dictfree_test(img,runner,args,lex):
     return res
 
 def rundictsvt():
-    cfgs = scene_cfg_te()
+    cfgs = scene_cfg_te(root_override="/run/media/lasercat/ssddata/pamidump/prfinal/");
     runner = HDOS2C(cfgs);
     args = runner.testready();
     err = 0;
     for i in range(647):
-
-        with open("/run/media/lasercat/ssddata/svtdicted/%d.gt" % i, "r") as fp:
-            gts = [k.strip() for k in fp];
         try:
+            with open("/run/media/lasercat/ssddata/svtdicted/%d.gt" % i, "r") as fp:
+                gts = [k.strip() for k in fp];
+
             res = dicted_test("/run/media/lasercat/ssddata/svtdicted/%d.jpg" % i,
                               runner,
                               args, "/run/media/lasercat/ssddata/svtdicted/%d.lex" % i);
@@ -90,7 +90,7 @@ def rundictsvt():
             err += 1
     print(1 - err / 647)
 def rundictfreesvt():
-    cfgs = scene_cfg_te()
+    cfgs = scene_cfg_te(root_override="/run/media/lasercat/ssddata/pamidump/prfinal/")
     runner = HDOS2C(cfgs);
     args = runner.testready();
     err = 0;
