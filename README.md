@@ -8,8 +8,11 @@ Sorry for the delay... Other stuff push in and this one got another delay. It wi
 
 ## Trained models
 https://drive.google.com/drive/folders/1WqpL1EAg2A5LXV8V7I1wK6XOMSGAR7Z4?usp=sharing
+Most models including ablative study models are now uploaded 
+
 ## Evaluation LMDBs
-https://drive.google.com/drive/folders/1g6XBx2xbD7T5PgGlnXWgFGu00oPRQSzX?usp=sharing
+https://www.kaggle.com/lancercat/osocr-test
+Training dataset and scripts will be uploaded upon acceptance.
 
 ### Naming rules:
 \[model\]\_\[trainingset\]\[inputformat\]\_\[epoch\]\_\[loss\]
