@@ -57,8 +57,8 @@ def run_folder(ptfile,sfolder,dfolder,save_root):
 
 if __name__ == '__main__':
     run_folder("/run/media/lasercat/ssddata/dicts/dabrusnum.pt",
-               "/run/media/lasercat/ssddata/SIW-13/Russian/","/run/media/lasercat/ssddata/pamidump/rusputin-zero/greek/","/run/media/lasercat/ssddata/pamidump/ablchs_md_scene/");
+               "/run/media/lasercat/ssddata/SIW-13/Russian/","/run/media/lasercat/ssddata/pamidump/rusputin-zero/greek/","/run/media/lasercat/ssddata/pamidump/prfinal/output");
 
     # run_folder("/run/media/lasercat/ssddata/dicts/dabgreeknumaf.pt",
-    #            "/run/media/lasercat/ssddata/SIW-13/Greek/","/run/media/lasercat/ssddata/pamidump/rusputin-zero/greek/","/run/media/lasercat/ssddata/pamidump/ablchs_md_scene/");
+    #            "/run/media/lasercat/ssddata/SIW-13/Greek/","/run/media/lasercat/ssddata/pamidump/rusputin-zero/greek/","/run/media/lasercat/ssddata/pamidump/prfinal/output");
     #
