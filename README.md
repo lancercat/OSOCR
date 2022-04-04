@@ -11,6 +11,10 @@ training dataset and scripts will be uploaded upon acceptance.
 ## Evaluation LMDBs
 https://www.kaggle.com/lancercat/osocr-test
 
+## Training LMDBs
+https://www.kaggle.com/vsdf2898kaggle/osocrtraining
+
+
 ### Naming rules:
 \[model\]\_\[trainingset\]\[inputformat\]\_\[epoch\]\_\[loss\]
 
