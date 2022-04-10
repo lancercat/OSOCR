@@ -99,6 +99,7 @@ Model roots are defined with the root_override parameter in each testing script.
 
 ## About
 This is the code repo of a currently under reviewing paper. 
+After it gets accepted somewhere, we will release the training code and make a manual coverining training, evaluation, and how to modify it to your liking.
 
 And feel free to contact me(lasercat@gmx.us) should you encounter any problems using the code.
 
