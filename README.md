@@ -1,5 +1,11 @@
 # OSOCR
+
 Maintenances are almost done. We may commit a few minor patches within a few days and the repo would be finalized.  
+
+[Update]
+The paper is undergoing a major revision and more experiments are added.
+
+We will start syncing them to this repo after 15th, June, 2022, hopefully. 
 
 ## Trained models
 https://drive.google.com/drive/folders/1WqpL1EAg2A5LXV8V7I1wK6XOMSGAR7Z4?usp=sharing
