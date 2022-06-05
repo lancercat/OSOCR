@@ -3,7 +3,7 @@
 Maintenances are almost done. We may commit a few minor patches within a few days and the repo would be finalized.  
 
 [Update]
-The paper is undergoing a major revision and more experiments are added.
+The paper is undergoing a major revision and more experiments are added (but not synced here yet).
 
 We will start syncing them to this repo after 15th, June, 2022, hopefully. 
 
