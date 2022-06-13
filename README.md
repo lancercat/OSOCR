@@ -3,9 +3,10 @@
 Maintenances are almost done. We may commit a few minor patches within a few days and the repo would be finalized.  
 
 [Update]
-The paper is undergoing a major revision and more experiments are added (but not synced here yet).
+The paper is undergoing a major revision and more experiments are added (synchronizing, not fully done yet).
 
-We will start syncing them to this repo after 15th, June, 2022, hopefully. 
+We will soon perform a full test of the code on a fresh installation of Manjaro and upload a manual to guide you through the evaluation.
+
 
 ## Trained models
 https://drive.google.com/drive/folders/1WqpL1EAg2A5LXV8V7I1wK6XOMSGAR7Z4?usp=sharing
