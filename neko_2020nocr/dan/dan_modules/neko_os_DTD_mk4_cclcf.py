@@ -99,3 +99,38 @@ class neko_os_DTD_mk4_cclcf(neko_os_DTD_mk4):
         else:
             out,outl=this.forward_test(protos,semb,labels,nB,C,nT)
             return out,outl,A;
+
+# As mk4 is deprecated, this very implementation will not be merged to mainline.
+# It may be adopted to mainline (>=mk7) one day in another form.
+
+class neko_os_DTD_mk4_scosine_cclcf(neko_os_DTD_mk4_cclcf):
+    def forward_train_hyped(this, proto, semb, label, nB, C, nT, text_length, A, nW, nH, hype):
+        nsteps = int(text_length.max())
+        # unknown is a fact, not a similarity.
+        out_res_cos = this.loop(C, proto, semb, label, nsteps, nB, hype);
+        # out_attns = this.out_attns(text_length, A, nB, nH, nW);
+        output_cos = this.pred(out_res_cos, label, text_length, nB, nT);
+        return output_cos, output_cos
+
+    def forward_test(this, proto, semb, label, nB, C, nT):
+        # unknown is a fact, not a similarity.
+        out_res_cos = this.loop(C, proto, semb, label, nT, nB, None);
+        out_length = this.prob_length(out_res_cos, nT, nB);
+        output = this.pred(out_res_cos, label, out_length, nB, nT);
+        return output, out_length
+    def loop(this, C, proto,semb,plabel, nsteps, nB, hype ):
+        # this.UNK_SCR=torch.nn.Parameter(torch.zeros_like(this.UNK_SCR)-100.)
+        sim_score = torch.zeros(nsteps, nB, proto.shape[0] + 1).type_as(C.data) + this.UNK_SCR;
+        # hidden=C;
+        hidden=this.context_free_pred(C);
+        cfpred=hidden.matmul(proto.t());
+        # beforsum=(hidden.unsqueeze(-1)*proto.t().unsqueeze(0).unsqueeze(0)).permute(0,1,3,2);
+        # cfpred=beforsum.reshape([beforsum.shape[0], beforsum.shape[1], beforsum.shape[2], 4, beforsum.shape[3] // 4]).min(3)[
+        #     0].sum(3);
+        # Scaled cosine distance as per https://arxiv.org/abs/2112.06741.
+        cfcos=cfpred*this.ALPHA/(hidden.norm(dim=-1,keepdim=True)+0.0000009); # Gasp, the eps or the detaching bites.
+        sim_score[:nsteps, :, :]=torch.cat([cfcos[:nsteps,:,:], this.UNK_SCR.repeat(nsteps,nB, 1)], dim=-1)
+        # Say using different metrics....
+        # Why I am to do these monkey works
+            # Soft selection
+        return sim_score;

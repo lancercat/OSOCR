@@ -1,6 +1,7 @@
 import torch;
 from torch.nn import functional as trnf
 from neko_sdk.ocr_modules.prototypers.neko_nonsemantical_prototyper_core import neko_nonsematical_prototype_core_basic
+from neko_sdk.ocr_modules.prototypers.neko_nonsemantical_prototyper_core import neko_nonsematical_prototype_core_basic_g2rand
 import regex
 class neko_SDPE2(torch.nn.Module):
     def setupcore(this,backbone=None,val_frac=0.8):
@@ -59,3 +60,20 @@ class neko_SDPE2(torch.nn.Module):
             out_prob.append(current_probability)
         return (out, out_prob)
 
+
+class neko_SDPE3_rand(neko_SDPE2):
+    def setupcore(this,backbone=None,val_frac=0.8):
+        try:
+            meta = torch.load(this.meta_path);
+        except:
+            meta=None;
+            print("meta loading failed")
+        this.dwcore = neko_nonsematical_prototype_core_basic_g2rand(this.nchannel, meta, backbone, None,
+                                                {"master_share": not this.case_sensitive,
+                                                 "max_batch_size": 512,
+                                                 "val_frac": val_frac,
+                                                 "neg_servant" :True
+                                                 },dropout=0.3);
+
+    def dump_all(this,force_idx=0):
+        return this.dwcore.dump_all(idx=force_idx);

@@ -126,3 +126,49 @@ class neko_nonsematical_prototype_core_basic(neko_prototype_core_basic):
         plabels,sembs,tdicts=this.get_plabel_and_dict(trsps,trchs)
         return protos,sembs,plabels,tdicts;
 
+
+# g2 supports multiple
+class neko_nonsematical_prototype_core_basic_g2rand(neko_nonsematical_prototype_core_basic):
+    def mvn(this):
+        for i in range(len(this.norm_protos)):
+            if this.norm_protos[i] is not None and this.norm_protos[i][0].max() > 20:
+                this.norm_protos[i] = [(_ - 127.5) / 128 for _ in this.norm_protos[i]];
+    def get_protos_rand(this,sppids,normpids):
+        normprotos=[random.choice(this.norm_protos[i-this.sp_cnt]) for i in normpids];
+        # im = (torch.cat(normprotos[:16], 2)[0, 0] * 127 + 128).cpu().numpy().astype(np.uint8);
+        # cv2.imshow( "a",im);
+        # cv2.waitKey(0);
+        spprotos=[this.sp_protos[i].unsqueeze(0) for i in sppids];
+        normprotos=this.proto_engine(torch.cat(normprotos).repeat(1,3,1,1).to(this.dev_ind.device));
+        allproto=torch.cat(spprotos+[normprotos]);
+        if(this.drop):
+            allproto=this.drop(allproto);
+        return allproto / torch.norm(allproto, dim=-1, keepdim=True);
+    def get_protos_idx(this,sppids,normpids,idx):
+        normprotos=[this.norm_protos[i-this.sp_cnt][idx] for i in normpids];
+        spprotos=[this.sp_protos[i].unsqueeze(0) for i in sppids];
+        normprotos=this.proto_engine(torch.cat(normprotos).repeat(1,3,1,1).to(this.dev_ind.device));
+        allproto=torch.cat(spprotos+[normprotos]);
+        if(this.drop):
+            allproto=this.drop(allproto);
+        return allproto / torch.norm(allproto, dim=-1, keepdim=True);
+
+    def sample_charset_by_text(this,text_batch):
+        b="";
+        for _ in text_batch: b+=_;
+
+        plain_chars_in_data=list(set(regex.findall(r'\X', b, regex.U)));
+        trsps,trchs=this.get_sampled_ids(plain_chars_in_data);
+        trchs=list(trchs);
+        trsps=list(trsps);
+        protos=this.get_protos_rand(trsps,trchs);
+        plabels,sembs,tdicts=this.get_plabel_and_dict(trsps,trchs)
+        # this.debug(trchs,"meow");
+        return protos,sembs,plabels,tdicts;
+
+    def dump_all(this,rot=0,idx=0):
+        trsps=[this.label_dict[i] for i in this.sp_tokens];
+        trchs=[this.label_dict[i] for i in this.shaped_characters];
+        protos=this.get_protos_idx(trsps,trchs,idx);
+        plabels,sembs,tdicts=this.get_plabel_and_dict(trsps,trchs)
+        return protos,sembs,plabels,tdicts;

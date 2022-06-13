@@ -122,6 +122,15 @@ def _get_dos_cco(FE,CAM,DTD,PE,ptfile,hardness,maxT,val_frac_override=0.8):
     }
 
 
+def _get_baseline_cco_rgb(FE,CAM,DTD,nclass,hardness,maxT):
+    return   {
+        'FE': FE,
+        'FE_args': get_cco_fe_args(hardness,ich=3),
+        'CAM': CAM,
+        'CAM_args': get_cam_args(maxT),
+        'DTD': DTD,
+        'DTD_args':get_bl_dtd_args(nclass)
+    }
 
 def get_baseline(FE,CAM,DTD,CC,prefix,token,maxT=25,root_override=None):
     d=_get_baseline(FE,CAM,DTD,CC,maxT)
@@ -139,3 +148,6 @@ def get_dos_cco(FE,CAM,DTD,PE,ptfile,prefix,token,hardness,maxT=25,root_override
     d=_get_dos_cco(FE,CAM,DTD,PE,ptfile,hardness,maxT,val_frac_override);
     return armtoken_xos(d, token, prefix,root_override);
 
+def get_baseline_cco_rgb(FE,CAM,DTD,CC,prefix,token,hardness,maxT=25,root_override=None):
+    d=_get_baseline_cco_rgb(FE,CAM,DTD,CC,hardness,maxT)
+    return armtoken_bl(d,token,prefix,root_override=root_override);
