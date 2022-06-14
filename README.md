@@ -51,58 +51,18 @@ CE: With L_{emb}
 
 
 ## Manual
+### Evaluateion
+Please refer to manul.pdf (mostly there, we are still working on it.)
 
+As we no more have a Ubuntu testing bed, we are discontinuing support for Ubuntu systems. 
 
-### Dependencies (Ubuntu 20.04)
-PyTorch>1.4 with CUDA support.  
-
-Other dependencies can be installed via the following commands.
-
-```
-pip3 install torchvision lmdb opencv lmdb scikit-learn torch_scatter regex editdistance
-
-sudo apt install python3-pip nvidia-cuda-toolkit python3-opencv
-```
-
-### Paths
-The default paths:
-    
-    CODEROOT: /home/yourusername/cat/neko_wcki
-    
-    DATAROOT: /home/yourusername/ssddata
-`$DATAROOT` is defined in `$CODEROOT/neko_sdk/root.py` 
-
-`$CODEROOT` is where code resides, should be okay anywhere, in theroy. 
-
-Model roots are defined with the root_override parameter in each testing script.
-
-
-
-### Evaluation with the prepared LMDBs
-1. Download the trained models and put them in `$CODEROOT/neko_2020nocr/dan/models`
-
-2. Download the evaluation LMDBs and put them in `$DATAROOT`
-
-3. Setup python path:
-    ```export PYTHONPATH=${CODEROOT}```
-
-4. Change neko_sdk.py accordingly if you do not use default `${DATAROOT}`
-
-5. pick an experiment in `neko_2020nocr/dan/methods_pami/`, for example basict_mjstcqa_CE_alter
-    ```
-    cd $CODEROOT/neko_2020nocr/dan/methods_pami/basict_mjstcqa_CE_alter
-    ```
-
-6. Double check the `cfgs_scene.py` file in the experiment dir, make sure you have the correct number of epochs corresponding to your checkpoints.
-
-7. Evaluate with `python3 test.py`. 
-
+The framework is still likely to work, just we cannot test for sure.
+If you have any problems, please open an issue.
 
 
 ### Preparing dataset for training and evauation from raw materials.
-1. Use https://github.com/lancercat/OSOCR-data to unzip the datasets.
+[TBA] Another manual will be released upon acceptance.
 
-2. ... TBA.
 
 ## About
 This is the code repo of a currently under reviewing paper. 
