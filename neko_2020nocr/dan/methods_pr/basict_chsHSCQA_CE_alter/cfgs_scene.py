@@ -38,7 +38,7 @@ class scene_cfg_tejp(scene_cfg):
     def __init__(this,meta=None,root_override=None):
         this.global_cfgs = get_test_cfg();
         this.optimizer_cfgs = get_dos_optim()
-        this.saving_cfgs = get_save_cfgs(prefix)
+        this.saving_cfgs = get_save_cfgs(prefix,root_override=root_override)
         this.loss_weight = loss[1];
         this.net_cfgs = get_net(pdict_evaljap(DSROOT),prefix,"E4",maxT=T,root_override=root_override);
         this.dataset_cfgs = get_test_jap_rgb(T,DICT,DSROOT,meta);

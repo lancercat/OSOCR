@@ -34,29 +34,25 @@ class visdan:
         for i in range(min(len(label)+3,A.shape[0])):
             att_mask_name = att_name(this.path,id,i);
             cv2.imwrite(att_mask_name,(A[i]*200*im+56*im)[0].detach().cpu().numpy().astype(np.uint8));
-    def writegt(this,id,label,out):
+    def writegt(this,id,label,out,beams):
         rec_path=resname(this.path,id);
         with open(rec_path,"w+") as fp:
             fp.write(label+"\n");
             fp.write(out + "\n");
 
-
-    def add_image(this,ims,label,out,names):
+    def add_image(this, ims, label, beams, out, names):
         bs = ims[0].shape[0];
         for bid in range(bs):
             for i in range(len(ims)):
-                impath = imname(this.path, str(this.counter)+names[i]);
+                impath = imname(this.path, str(this.counter) + names[i]);
                 try:
                     cv2.imwrite(impath, (ims[i][bid] * 255).permute(1, 2, 0).detach().cpu().numpy().astype(np.uint8));
                 except:
 
                     cv2.imwrite(impath, (ims[i][bid] * 255)[0].detach().cpu().numpy().astype(np.uint8));
-
-            this.writegt(this.counter, label[bid], out[bid]);
+            this.writegt(this.counter, label[bid], out[bid], beams[bid]);
             this.counter += 1;
 
-
-        pass;
     def addbatch(this,im,A,label,out):
         bs=im.shape[0];
         att_masks = torch.nn.functional.interpolate(A, [im.shape[2], im.shape[3]], mode='bilinear');
