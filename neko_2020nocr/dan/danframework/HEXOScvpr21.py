@@ -151,7 +151,8 @@ class HXXOS2C(HXOSC):
                     ulabels.append("".join([c if c in tdict else "⑨" for c in l]));
                 hpwu=[b[0] for b in rchoutput]
                 tools[2].add_iter(hpwu, out_length, ulabels,debug)
-            tools[0].add_iter(choutput, out_length, label,debug)
+            else:
+                tools[0].add_iter(choutput, out_length, label,debug)
             # A.detach().reshape(A.shape[0], A.shape[1], A.shape[2], A.shape[3]).sum(2)
             # for i in range(len(choutput)):
             #     cfm.addpairquickandugly(choutput[i],label[i]);
@@ -181,13 +182,13 @@ class HXXOS2C(HXOSC):
         #         pass;
         fwdend=time.time()
         print((fwdend-fwdstart)/all,all)
-        tools[0].show();
         if (len(tools) == 3):
             try:
                 tools[2].show();
             except:
                 pass;
-
+        else:
+            tools[0].show();
         print(all);
         Train_or_Eval(model, 'Train')
 

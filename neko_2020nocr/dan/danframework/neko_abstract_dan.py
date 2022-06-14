@@ -56,7 +56,8 @@ class neko_abstract_DAN:
         this.cfgs.mkdir(this.cfgs.saving_cfgs['saving_path']);
         this.setup_dataloaders();
         this.setup();
-        display_cfgs(this.cfgs, this.model)
+        # Let's not show cfgs every time
+        # display_cfgs(this.cfgs, this.model)
 
         # ---------------------------------
 

@@ -21,17 +21,18 @@ class neko_prototype_core_basic(nn.Module):
         # In some annotations they have same labels, while in others not.
         # i.e, 'A' and 'a' can have the same label 'a',
         # '茴','回','囘' and '囬' can have the same label '回'
-        this.masters = meta["master"];
+        if(meta is not None):
+            this.masters = meta["master"];
 
-        # Foes includes the characters looks like each other
-        # but never share labels (They may actually have linguistic relationships...
-        # Like yanderes in a broken relationship[x]).
-        # This set helps implement ohem like minibatching on the huge labelset.
-        # e.g. 'u' and 'ü'
-        this.foes = meta["foes"];
-        this.servants=meta["servants"];
-        # union set of friend, harem and foe.
-        this.related_proto_ids = meta["relationships"];
+            # Foes includes the characters looks like each other
+            # but never share labels (They may actually have linguistic relationships...
+            # Like yanderes in a broken relationship[x]).
+            # This set helps implement ohem like minibatching on the huge labelset.
+            # e.g. 'u' and 'ü'
+            this.foes = meta["foes"];
+            this.servants=meta["servants"];
+            # union set of friend, harem and foe.
+            this.related_proto_ids = meta["relationships"];
 
         this.sp_protos = torch.nn.Parameter(torch.rand([
             this.sp_cnt, this.output_channel]).float() * 2 - 1);

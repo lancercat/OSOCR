@@ -23,7 +23,7 @@ from neko_2020nocr.dan.danframework.HEXOScvpr21 import HDOS2C;
 #---------------------------------------------------------
 if __name__ == '__main__':
     for k in DICT:
-        cfgs = DICT[k]("/run/media/lasercat/ssddata/pamidump/mdch/hwdb2/")
+        cfgs = DICT[k]("/run/media/lasercat/20615BC32265B955/prfinal/hwdb/")
         runner = HDOS2C(cfgs);
         runner.run();
         print(k,"Done")

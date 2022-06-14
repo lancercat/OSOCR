@@ -16,6 +16,7 @@ def get_test_cfg():
         'show_interval': 50,
         'test_interval': 1000,
         'test_miter': 100000,
+        "print_net":False,
     };
 def get_save_cfgs(prefix,root_override=None):
     models=find_model_root(root_override)+prefix+"_";

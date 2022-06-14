@@ -216,8 +216,7 @@ class neko_oswr_Attention_AR_counter():
         R = this.Ucorr / this.total_U;
         P = this.Ucorr / (this.Ucorr + this.KtU);
         F = 2 * (R * P) / (R + P)
-        print('Accuracy: {:.6f}, KACR: {:.6f},URCL:{:.6f}, UPRE {:.6f}, F {:.6f}'.format(
-            this.correct / this.total_samples,
+        print("KACR: {:.6f},URCL:{:.6f}, UPRE {:.6f}, F {:.6f}".format(
             this.Kcorr / this.total_K,
             R, P, F
 

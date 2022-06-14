@@ -7,6 +7,27 @@ import regex
 class neko_nonsematical_prototype_core_basic(neko_prototype_core_basic):
     # every thing does not involve sampling
     PROTOENGINE=neko_visual_only_interprinter;
+    def arm_meta(this,meta,preload_tensor):
+        if (meta is None):
+            return;
+
+        list_character = list(meta["chars"]);
+        this.aligned_characters = meta["achars"];
+        # characters without shape is generally what you always want to keep.
+        this.shaped_characters = sorted(set(meta["chars"]))
+        # UNK is not a sp_token as it is centerless.
+        this.character = list(meta["sp_tokens"]) + list_character;
+        this.label_dict = meta["label_dict"];
+        this.shaped_ids = set([this.label_dict[i] for i in this.shaped_characters]);
+        this.sp_cnt = len(meta["sp_tokens"]);
+        this.sp_tokens = meta["sp_tokens"];
+        if (preload_tensor is None):
+            this.norm_protos = meta["protos"][this.sp_cnt:];
+        else:
+            this.norm_protos = torch.load(preload_tensor);
+    def arm_none_meta(this):
+        this.label_dict={"[s]":0,"[UNK]":1};
+        this.sp_cnt=1;
 
     def setup_common(this,output_channel,
                  meta,
@@ -18,20 +39,17 @@ class neko_nonsematical_prototype_core_basic(neko_prototype_core_basic):
         # However, for Rocm devices it bites as it compiles kernel
         # everytime we change batch size it's nightmare.
         this.dev_ind = torch.nn.Parameter(torch.rand([1]));
-        list_character = list(meta["chars"]);
-        this.aligned_characters=meta["achars"];
-        # characters without shape is generally what you always want to keep.
-        this.shaped_characters = sorted(set(meta["chars"]))
-        # UNK is not a sp_token as it is centerless.
-        this.character = list(meta["sp_tokens"]) + list_character;
-        this.label_dict = meta["label_dict"];
-        this.shaped_ids=set([this.label_dict[i] for i in this.shaped_characters]);
-        this.sp_cnt = len(meta["sp_tokens"]);
-        this.sp_tokens=meta["sp_tokens"];
         if(dropout is not None):
             this.drop=torch.nn.Dropout(p=0.3);
         else:
             this.drop=None;
+
+        if(meta is not None):
+            this.arm_meta(meta,preload_tensor);
+        else:
+            this.arm_none_meta();
+            this.make_proto_engine(meta, backbone, preload_tensor=None);
+            return ;
         unk = this.label_dict["[UNK]"];
         # if the dict does not provide an specific unk token, set it to -1;
         for i, char in enumerate(this.character):
@@ -43,10 +61,7 @@ class neko_nonsematical_prototype_core_basic(neko_prototype_core_basic):
         else:
             this.label_set = set(this.label_dict.values());
 
-        if (preload_tensor is None):
-            this.norm_protos = meta["protos"][this.sp_cnt:];
-        else:
-            this.norm_protos = torch.load(preload_tensor);
+
 
         for i in range(len(this.norm_protos)):
             if this.norm_protos[i] is not None and this.norm_protos[i].max() > 20:
