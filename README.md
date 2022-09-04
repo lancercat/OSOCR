@@ -4,6 +4,8 @@ Maintenances are almost done. We may commit a few minor patches within a few day
 
 [Update]
 The paper is undergoing a major revision and more experiments are added (synchronizing, not fully done yet).
+[Update]
+The paper is undergoing a minor revision and more experiments will be added.
 
 We will soon perform a full test of the code on a fresh installation of Manjaro and upload a manual to guide you through the evaluation.
 
