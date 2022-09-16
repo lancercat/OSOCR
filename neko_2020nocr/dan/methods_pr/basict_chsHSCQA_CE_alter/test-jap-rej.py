@@ -15,10 +15,10 @@ from neko_2020nocr.dan.danframework.HEXOScvpr21 import HDOS2C;
 #     runner.run("/run/media/lasercat/ssddata/pamiremake/basict_chjaprej/",True);
 #####GOSR
 splitdict={
-    "OSR (w/o KUC)" :"/home/lasercat/ssddata/dicts/dabjpmltch_osr.pt",
-    "OSR (with KUC)":"/home/lasercat/ssddata/dicts/dabjpmltch_sharedkanji.pt",
-    "GOSR (w/o KUC)":"/home/lasercat/ssddata/dicts/dabjpmltch_nohirakata.pt",
-    "GOSR (with KUC)":"/home/lasercat/ssddata/dicts/dabjpmltch_kanji.pt",
+    "OSR (w/o SOC)" :"/home/lasercat/ssddata/dicts/dabjpmltch_osr.pt",
+    "OSR (with SOC)":"/home/lasercat/ssddata/dicts/dabjpmltch_sharedkanji.pt",
+    "GOSR":"/home/lasercat/ssddata/dicts/dabjpmltch_nohirakata.pt",
+    "OSTR":"/home/lasercat/ssddata/dicts/dabjpmltch_kanji.pt",
 }
 
 if __name__ == '__main__':

@@ -12,27 +12,6 @@ cls_emb=["CE",{
     "wemb": 0.3,
     "wmar": 0,
 }];
-cls_emb_ace=["CEA",{
-    "wcls":1,
-    "wace":0.3,
-    "wsim": 0,
-    "wemb": 0.3,
-    "wmar": 0,
-}];
-cls_emb_sim=["CES",{
-    "wcls":1,
-    "wace": 0,
-    "wsim": 1,
-    "wemb": 0.1,
-    "wmar": 0,
-}];
-cls_emb_sim_alter=["CES_alter",{
-    "wcls":1,
-    "wace": 0,
-    "wsim": 1,
-    "wemb": 0.1,
-    "wmar": 0,
-}];
 #
 # this.wcls = this.cfgs["loss_weight"]["lcls"];
 # this.wsim = this.cfgs["loss_weight"]["lsim"];
@@ -43,5 +22,21 @@ sim_emb=["SE",{
     "wace": 0,
     "wsim": 1,
     "wemb": 0.1,
+    "wmar": 0,
+}];
+# naive a: set rejection as don't care and later find a threshold
+dcrej_cls_emb=["DCE",{
+    "wcls":1,
+    "wace": 0,
+    "wsim": 0,
+    "wemb": 0.3,
+    "wmar": 0,
+}];
+# naive b: set a fix threshold for unk
+frej_cls_emb=["FCE",{
+    "wcls":1,
+    "wace": 0,
+    "wsim": 0,
+    "wemb": 0.3,
     "wmar": 0,
 }];

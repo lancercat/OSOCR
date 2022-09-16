@@ -46,7 +46,10 @@ def get_chs_wrctwHKS(maxT=25, dict_dir=None, root="/home/lasercat/ssddata/"):
         "tr_case_sensitive" : False,
         'dict_dir' : dict_dir
     }
-def get_jap_test(maxT=25, dict_dir=None, root="/home/lasercat/ssddata/"):
+def get_jap_test(maxT=25, dict_dir=None, root="/home/lasercat/ssddata/",meta=None):
+    if(meta is None):
+        os.path.join(root, "dicts", "dabjpmlt.pt");
+
     return {
         'dataset_train': lmdbDataset,
         'dataset_train_args': {
@@ -62,7 +65,7 @@ def get_jap_test(maxT=25, dict_dir=None, root="/home/lasercat/ssddata/"):
             'shuffle': True,
             'num_workers': 12,
         },
-        "temeta": os.path.join(root,"dicts","dabjpmlt.pt"),
+        "temeta": meta,
         'dataset_test': lmdbDataset,
         'dataset_test_args': {
             'roots': [get_mltjp_path(root)],

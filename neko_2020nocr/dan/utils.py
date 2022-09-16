@@ -31,7 +31,7 @@ class cha_encdec():
             out[i][0:len(cur_encoded)] = cur_encoded
         return out
 
-    def decode(self, net_out, length):
+    def decode(self, net_out, length,prob_threshold=None):
         # decoding prediction into text with geometric-mean probability
         # the probability is used to select the more realiable prediction when using bi-directional decoders
         out = []
@@ -45,7 +45,8 @@ class cha_encdec():
             current_probability = net_out[int(length[:i].sum()): int(length[:i].sum() + length[i])].topk(1)[0][:, 0]
             current_probability = torch.exp(torch.log(current_probability).sum() / current_probability.size()[0])
             out.append(current_text)
-            out_prob.append(current_probability)
+            out_prob.append(current_probability);
+
         return (out, out_prob)
 
 
@@ -153,9 +154,9 @@ class neko_os_Attention_AR_counter():
             pass
         print('Accuracy: {:.6f}, AR: {:.6f}, CER: {:.6f}, WER: {:.6f}'.format(
             self.correct / self.total_samples,
-            1 - self.distance_C / self.total_C,
-            self.distance_C / self.total_C,
-            self.distance_W / self.total_W))
+            1 - self.distance_C / max(1,self.total_C),
+            self.distance_C / max(1,self.total_C),
+            self.distance_W / max(1,self.total_W)))
 
 
 class neko_oswr_Attention_AR_counter():
@@ -284,9 +285,10 @@ class Attention_AR_counter():
             pass
         print('Accuracy: {:.6f}, AR: {:.6f}, CER: {:.6f}, WER: {:.6f}'.format(
             self.correct / self.total_samples,
-            1 - self.distance_C / self.total_C,
-            self.distance_C / self.total_C,
-            self.distance_W / self.total_W))
+            1 - self.distance_C / max(1,self.total_C),
+            self.distance_C / max(1,self.total_C),
+            self.distance_W / max(1,self.total_W)))
+
 
 
 class Attention_AR_counter_node():
@@ -340,9 +342,10 @@ class Attention_AR_counter_node():
             pass
         print('Accuracy: {:.6f}, AR: {:.6f}, CER: {:.6f}, WER: {:.6f}'.format(
             self.correct / self.total_samples,
-            1 - self.distance_C / self.total_C,
-            self.distance_C / self.total_C,
-            self.distance_W / self.total_W))
+            1 - self.distance_C / max(1,self.total_C),
+            self.distance_C / max(1,self.total_C),
+            self.distance_W / max(1,self.total_W)))
+
 
 
 class Loss_counter():
