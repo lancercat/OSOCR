@@ -1,13 +1,28 @@
 # OSOCR
 
-Maintenances are almost done. We may commit a few minor patches within a few days and the repo would be finalized.  
+
+
+
+Given the paper being accepted now, we are starting to tidy up the dataset maker and collecting extra trained models.
+
+This may take a while, as you can see it's the CV paper season in a year again (ddls of cvpr, icml, iclr, iccv, and nips gather around),
+plus I have some classes to attend and a thesis to write.  (they are more taxing than anticipated) 
+
+However, we hope that we can still finish updating and finalizing this repo by Christmas. 
+
+Sorry for the unexpected delay and thanks for your understanding.
+
+Cat 10-10-2022
+
+
+-----------History
+
 
 [Update]
 The evaluation code and core implementation for revision two is updated. The extra models and training code will be released upon acceptance. 
 
 
 
------------History
 
 [Update]
 The paper is undergoing a major revision and more experiments are added (synchronizing, not fully done yet).
