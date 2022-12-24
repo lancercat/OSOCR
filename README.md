@@ -1,7 +1,7 @@
 # OSOCR
 
 [Update] 
-1. The data repo is now fully setup at 
+1. The data repo is now fully set up at 
 https://github.com/lancercat/OSOCR-data
 
 2. The training scripts are added.
