@@ -82,19 +82,23 @@ Please refer to manul.pdf (mostly there, we are still working on it.)
 As we no more have a Ubuntu testing bed, we are discontinuing support for Ubuntu systems. 
 
 The framework is still likely to work, just we cannot test for sure.
+
+If your are setting up on old enviornments, please refer to AeroX's guide in Issue #6 of the VSDF repo:
+
+https://github.com/lancercat/VSDF/issues/6
+
 If you have any problems, please open an issue.
 
 
 ### Preparing dataset for training and evauation from raw materials.
-[TBA] Another manual will be released upon acceptance.
+Please refer to the OSOCR-data repo
+
+https://github.com/lancercat/OSOCR-data/manul.pdf
 
 
 ## About
-This is the code repo of a currently under reviewing paper. 
-After it gets accepted somewhere, we will release the training code and make a manual coverining training, evaluation, and how to modify it to your liking.
 
 And feel free to contact me(lasercat@gmx.us) should you encounter any problems using the code.
 
-If you want models for other experiments in the paper, please email me the specific experiment(s), e.g. row x of table y, so I can upload it to the drive. 
 
 
