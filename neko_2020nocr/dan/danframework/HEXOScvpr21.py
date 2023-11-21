@@ -121,7 +121,7 @@ class HXXOS2C(HXOSC):
         all=0
         # visualizer=None;
         if dbgpath is not None:
-            visualizer=visdan(dbgpath);
+            visualizer=visdan(dbgpath,temeta);
         # cfm=neko_confusion_matrix();
         for sample_batched in test_loader:
             if idi>miter:

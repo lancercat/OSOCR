@@ -3,7 +3,7 @@ import os;
 import shutil;
 import numpy as np;
 import torch;
-
+from neko_2020nocr.result_renderer import render_word
 def imname(path,id):
     return os.path.join(path, str(id) + "_img.jpg");
 
@@ -12,13 +12,18 @@ def stackname(path,id):
 
 def att_name(path,id,t):
     return os.path.join(path, str(id) + "att_" + str(t) + ".jpg");
-def resname(path,id):
-    return os.path.join(path, str(id) + "_res.txt")
+def resname(path,id,pfx="txt"):
+    return os.path.join(path, str(id) + "_res."+pfx);
 
+from neko_sdk.ocr_modules.charset.chs_cset import t1_3755
+from neko_sdk.ocr_modules.charset.etc_cset import latin62
 
 class visdan:
-    def __init__(this,path):
+    def __init__(this,path,temeta):
         this.path=path;
+        this.temeta=temeta;
+        this.seen_characters=latin62.union(t1_3755);
+
         # shutil.rmtree(path,True);
         os.makedirs(path,exist_ok=True);
         this.counter=0;
@@ -46,10 +51,13 @@ class visdan:
             for i in range(len(ims)):
                 impath = imname(this.path, str(this.counter) + names[i]);
                 try:
-                    cv2.imwrite(impath, (ims[i][bid] * 255).permute(1, 2, 0).detach().cpu().numpy().astype(np.uint8));
+                    pass;
+                    # cv2.imwrite(impath, (ims[i][bid] * 255).permute(1, 2, 0).detach().cpu().numpy().astype(np.uint8));
                 except:
-
-                    cv2.imwrite(impath, (ims[i][bid] * 255)[0].detach().cpu().numpy().astype(np.uint8));
+                    pass;
+                    # cv2.imwrite(impath, (ims[i][bid] * 255)[0].detach().cpu().numpy().astype(np.uint8));
+            res_im=render_word(this.temeta, this.seen_characters, (ims[0][bid] * 255).permute(1, 2, 0).detach().cpu().numpy().astype(np.uint8),label[bid],beams[bid][0]);
+            cv2.imwrite(resname(this.path,this.counter,"jpg"),res_im[0]);
             this.writegt(this.counter, label[bid], out[bid], beams[bid]);
             this.counter += 1;
 
