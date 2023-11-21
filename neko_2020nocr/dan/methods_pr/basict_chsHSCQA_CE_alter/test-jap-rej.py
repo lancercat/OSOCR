@@ -15,16 +15,15 @@ from neko_2020nocr.dan.danframework.HEXOScvpr21 import HDOS2C;
 #     runner.run("/run/media/lasercat/ssddata/pamiremake/basict_chjaprej/",True);
 #####GOSR
 splitdict={
-    "OSR (w/o KUC)" :"/home/lasercat/ssddata/dicts/dabjpmltch_osr.pt",
-    "OSR (with KUC)":"/home/lasercat/ssddata/dicts/dabjpmltch_sharedkanji.pt",
-    "GOSR (w/o KUC)":"/home/lasercat/ssddata/dicts/dabjpmltch_nohirakata.pt",
-    "GOSR (with KUC)":"/home/lasercat/ssddata/dicts/dabjpmltch_kanji.pt",
+    "OSR":"/home/lasercat/ssddata/dicts/dabjpmltch_seen.pt",
+    "GOSR":"/home/lasercat/ssddata/dicts/dabjpmltch_nohirakata.pt",
+    "OSTR":"/home/lasercat/ssddata/dicts/dabjpmltch_kanji.pt",
 }
 
 if __name__ == '__main__':
     for k in splitdict:
         cfgs=scene_cfg_tejp(splitdict[k],
-                            root_override="/run/media/lasercat/20615BC32265B955/prfinal/")
+                            root_override="/run/media/lasercat/f3a1698e-80ad-4473-8fc6-4df8c81c3831/osocr-weight/prfinal/")
         runner=HDOS2C(cfgs);
         print(k);
         runner.run(None,measure_rej=True);
