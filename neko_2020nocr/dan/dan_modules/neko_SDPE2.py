@@ -45,7 +45,7 @@ class neko_SDPE2(torch.nn.Module):
             label_batch=[l.lower() for l in label_batch]
         return this.encode_fn_naive(tdict,label_batch)
 
-    def decode(this, net_out, length,protos,labels,tdict):
+    def decode(this, net_out, length,protos,labels,tdict,thresh=None):
     # decoding prediction into text with geometric-mean probability
     # the probability is used to select the more realiable prediction when using bi-directional decoders
         out = []
@@ -56,6 +56,14 @@ class neko_SDPE2(torch.nn.Module):
             current_text = ''.join([tdict[_] if _ > 0 and _ <= len(tdict) else '' for _ in current_idx_list])
             current_probability = net_out[int(length[:i].sum()) : int(length[:i].sum() + length[i])].topk(1)[0][:,0]
             current_probability = torch.exp(torch.log(current_probability).sum() / current_probability.size()[0])
+            if(thresh is not None):
+                filteredtext=[];
+                for i in range(len(current_text)):
+                    if(current_probability[i]>thresh):
+                        filteredtext.append(current_text[i]);
+                    else:
+                        filteredtext.append('⑨');
+                current_text=''.join(filteredtext);
             out.append(current_text)
             out_prob.append(current_probability)
         return (out, out_prob)

@@ -10,7 +10,7 @@ colors=list(cp.colors.colors20.values());
 #
 methods=[
     # ["basic_chsHSsc_CE_alter",colors[1],"solid"],
-    # ["basic_chsHS_CE_alter", colors[2], "solid"],
+    # ["basic_chsHS_CE_alterF", colors[2], "solid"],
     # ["basic_chsHSwt_CE_alter", colors[12], "solid"],
 
     # ["basic_chsHSext_CE_alter", colors[2], "solid"],
@@ -46,7 +46,7 @@ methods=[
 
     # ["basic_chsHS_C_alter", colors[4], "dash"],
     # ["basic_chsHS_C_alter", colors[5], "solid"],
-    # ["basic_chsHS_CEF_alter", colors[6], "solid"],
+    # ["basic_chsHS_CE_alterF", colors[6], "solid"],
 
 ]
 

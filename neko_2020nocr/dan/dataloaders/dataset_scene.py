@@ -542,7 +542,7 @@ class lmdbDataset_repeatHS(lmdbDataset_repeatS):
                 # print("vertical image");
                 return self[index + 1]
             try:
-                img = self.keepratio_resize(img)
+                img,_ = self.keepratio_resize(img)
             except:
                 print('Size error for %d' % index)
                 return self[index + 1]

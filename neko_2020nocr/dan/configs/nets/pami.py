@@ -16,4 +16,3 @@ def get_dos_basic_tpsf(ptfile,prefix,token,maxT=25,root_override=None):
 
 def get_dos_basic_cco(ptfile,prefix,token,maxT=25,root_override=None,val_frac_override=0.8):
     return get_dos_cco(neko_cco_Feature_Extractor,CAM,neko_os_DTD_mk4_cclcf,neko_SDPE2,ptfile,prefix,token,0.5,maxT,root_override=root_override,val_frac_override=val_frac_override);
-

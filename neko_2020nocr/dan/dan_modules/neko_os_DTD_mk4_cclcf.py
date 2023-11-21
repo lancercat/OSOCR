@@ -1,6 +1,7 @@
 from neko_sdk.ocr_modules.neko_score_merging import scatter_cvt;
 import torch;
 from neko_2020nocr.dan.dan_modules.neko_os_DTD_mk4 import neko_os_DTD_mk4;
+from torch.nn import functional as trnf
 
 class neko_os_DTD_mk4_cclcf(neko_os_DTD_mk4):
     # LSTM DTD
@@ -71,7 +72,7 @@ class neko_os_DTD_mk4_cclcf(neko_os_DTD_mk4):
 
     def forward_train_hyped(this, proto,semb, label, nB, C, nT, text_length, A, nW, nH,hype):
         nsteps = int(text_length.max())
-        # unknown is a fact, not a similarity.
+        # unknown is a fact, not a similarity, but some readers may want to know what happens if designed so..
         out_res_cls,out_res_cos = this.loop(C, proto,semb,label, nsteps, nB, hype);
         # out_attns = this.out_attns(text_length, A, nB, nH, nW);
         output_cls = this.pred(out_res_cls, label, text_length, nB, nT);
@@ -134,3 +135,32 @@ class neko_os_DTD_mk4_scosine_cclcf(neko_os_DTD_mk4_cclcf):
         # Why I am to do these monkey works
             # Soft selection
         return sim_score;
+
+
+### Similar to Prototypical Matching and Open Set Rejection for Zero-Shot Semantic Segmentation(ICCV21)
+class neko_os_DTD_mk4_paramrej_cclcf(neko_os_DTD_mk4_cclcf):
+    def setup_modules(this, dropout=0.3):
+        this.STA = torch.nn.Parameter(this.normed_init(this.nchannel));
+        this.UNK = torch.nn.Parameter(this.normed_init(this.nchannel));
+        this.ALPHA = torch.nn.Parameter(torch.ones([1, 1]), requires_grad=True);
+        this.context_free_pred = torch.nn.Linear(this.nchannel, this.nchannel);
+
+        this.register_parameter("STA", this.STA);
+        this.register_parameter("UNK", this.UNK);
+        this.register_parameter("ALPHA", this.ALPHA);
+
+    def loop(this, C, proto, semb, plabel, nsteps, nB, hype):
+        proto_=torch.cat([proto,this.UNK]);
+        # this.UNK_SCR=torch.nn.Parameter(torch.zeros_like(this.UNK_SCR)-100.)
+        out_res_cf = torch.zeros(nsteps, nB, proto_.shape[0]).type_as(C.data);
+        # hidden=C;
+        hidden = this.context_free_pred(C);
+        cfpred = hidden.matmul(proto_.t());
+        # beforsum=(hidden.unsqueeze(-1)*proto.t().unsqueeze(0).unsqueeze(0)).permute(0,1,3,2);
+        # cfpred=beforsum.reshape([beforsum.shape[0], beforsum.shape[1], beforsum.shape[2], 4, beforsum.shape[3] // 4]).min(3)[
+        #     0].sum(3);
+        out_res_cf[:nsteps, :, :] = cfpred[:nsteps, :, :] * this.ALPHA;
+
+        # Soft selection
+        return out_res_cf,out_res_cf.detach();
+

@@ -1,9 +1,34 @@
 # OSOCR
 
-Maintenances are almost done. We may commit a few minor patches within a few days and the repo would be finalized.  
+[Update] 
+1. The data repo is now fully set up at 
+https://github.com/lancercat/OSOCR-data
+
+2. The training scripts are added.
+
+3. The manual manul.pdf is updated with training instructions, and a few manul photos.
+
+4. GLHF and Mewrry Xmeows
+
+If you have any concerns, please email us. 
+
+Cat
+24-Dec-2022
+
+-----------History
+
+[Update]
+The evaluation code and core implementation for revision two is updated. The extra models and training code will be released upon acceptance. 
+
+
+
 
 [Update]
 The paper is undergoing a major revision and more experiments are added (synchronizing, not fully done yet).
+
+[Update]
+The paper is undergoing a minor revision and more experiments will be added.
+
 
 We will soon perform a full test of the code on a fresh installation of Manjaro and upload a manual to guide you through the evaluation.
 
@@ -57,19 +82,23 @@ Please refer to manul.pdf (mostly there, we are still working on it.)
 As we no more have a Ubuntu testing bed, we are discontinuing support for Ubuntu systems. 
 
 The framework is still likely to work, just we cannot test for sure.
+
+If your are setting up on old enviornments, please refer to AeroX's guide in Issue #6 of the VSDF repo:
+
+https://github.com/lancercat/VSDF/issues/6
+
 If you have any problems, please open an issue.
 
 
 ### Preparing dataset for training and evauation from raw materials.
-[TBA] Another manual will be released upon acceptance.
+Please refer to the OSOCR-data repo
+
+https://github.com/lancercat/OSOCR-data/manul.pdf
 
 
 ## About
-This is the code repo of a currently under reviewing paper. 
-After it gets accepted somewhere, we will release the training code and make a manual coverining training, evaluation, and how to modify it to your liking.
 
 And feel free to contact me(lasercat@gmx.us) should you encounter any problems using the code.
 
-If you want models for other experiments in the paper, please email me the specific experiment(s), e.g. row x of table y, so I can upload it to the drive. 
 
 

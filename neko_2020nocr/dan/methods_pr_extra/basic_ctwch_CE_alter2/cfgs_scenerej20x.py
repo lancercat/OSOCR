@@ -5,7 +5,7 @@ from neko_2020nocr.dan.configs.optimizers import get_dos_optim
 
 from neko_sdk.root import find_data_root;
 from neko_2020nocr.dan.configs.nets.pr_extras import get_dos_basic_g2rand_cco as get_net;
-from neko_2020nocr.dan.methods_review_extra.CTWSx_cfg import *
+from neko_2020nocr.dan.methods_pr_extra.CTWSx_cfg import *
 from neko_2020nocr.dan.methods_pr.loss_cfg import cls_emb as loss;
 cnt=2000
 
